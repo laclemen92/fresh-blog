@@ -31,8 +31,10 @@
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
     "$std/": "https://deno.land/std@0.211.0/",
-    "kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.9.1/"
     "$gfm": "https://deno.land/x/gfm@0.6.0/mod.ts",
+    "kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.9.1/",
+    "@tailwindcss/forms": "npm:/@tailwindcss/forms@0.5.7",
+    "@tailwindcss/forms/": "npm:/@tailwindcss/forms@0.5.7/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
