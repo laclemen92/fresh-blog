@@ -1,4 +1,4 @@
-import { useSignal } from "@preact/signals";
+import { Signal, useSignal } from "@preact/signals";
 import IconX from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/x.tsx";
 
 export interface BannerProps {
@@ -15,7 +15,7 @@ const bannerClass = {
 const showBanner = () => {
 };
 
-const closeBanner = (show: any) => {
+const closeBanner = (show: Signal) => {
   console.log("close");
   show.value = false;
 };
