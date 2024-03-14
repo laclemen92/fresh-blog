@@ -10,21 +10,43 @@ export interface HeaderProps {
 
 export function Header(props: HeaderProps) {
   return (
-    <header class="w-full bg-[#86efac] bg-cover bg-no-repeat">
-      <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between">
-        <a href="/">
-          <img
-            class="my-6 h-14 w-14"
-            src="/logo.svg"
-            alt="the Fresh logo: a sliced lemon dripping with juice"
-          />
-        </a>
-        <h1 class="text-2xl">Welcome to da Blog</h1>
-        <GitHubAvatar
-          login="laclemen92"
-          size={32}
-        />
+    <>
+      {/* max-w-screen-xl - this made it have a lot of margin on sides */}
+      <header class="mx-auto flex gap-3 items-center justify-between">
+        <div class="p-4 flex items-center">
+          <a href="/" class="flex mr-3 items-center">
+            <img
+              height={40}
+              width={40}
+              src="/logo.svg"
+              alt="the Fresh logo: a sliced lemon dripping with juice"
+            />
+          </a>
+          <a href="/" class="flex mr-3 items-center">
+            <h1 class="text-xl">Welcome to da Blog</h1>
+          </a>
+        </div>
+        <nav class="flex hidden md:flex">
+          <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
+            <li class="flex items-center">
+              <GitHubAvatar
+                login="laclemen92"
+                size={32}
+              />
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <nav class="flex md:hidden pb-3">
+        <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
+          <li class="flex items-center">
+            <GitHubAvatar
+              login="laclemen92"
+              size={32}
+            />
+          </li>
+        </ul>
       </nav>
-    </header>
+    </>
   );
 }

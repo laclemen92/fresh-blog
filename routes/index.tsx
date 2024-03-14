@@ -3,7 +3,7 @@ import { Header } from "@/components/Header.tsx";
 
 export default function Home() {
   return (
-    <div class="flex flex-col h-screen">
+    <div class="bg-white h-full">
       <Header />
       <Footer />
     </div>
