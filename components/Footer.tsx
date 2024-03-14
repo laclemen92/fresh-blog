@@ -3,7 +3,7 @@ import IconBrandGithub from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/bran
 
 export function Footer() {
   return (
-    <footer class="sticky top-[100vh] w-11/12 max-w-5xl mx-auto mt-24 sm:!mt-28 mb-8 flex items-center justify-end">
+    <footer class="md:h-16 flex mt-16 justify-end md:mx-16 sm:mx-4">
       <span class="flex items-center gap-2">
         <a
           class="hover:underline flex gap-2 items-center"
