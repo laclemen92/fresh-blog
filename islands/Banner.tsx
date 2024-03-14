@@ -12,9 +12,6 @@ const bannerClass = {
   success: "bg-green-500",
 };
 
-const showBanner = () => {
-};
-
 const closeBanner = (show: Signal) => {
   console.log("close");
   show.value = false;
