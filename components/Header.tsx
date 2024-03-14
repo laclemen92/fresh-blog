@@ -1,9 +1,12 @@
 import { User } from "@/utils/db.ts";
+import { GitHubAvatar } from "@/components/GitHubAvatar.tsx";
 
 export interface HeaderProps {
   sessionUser?: User;
   // url: URL;
 }
+
+// need to show the avatar image or sign in button on top right
 
 export function Header(props: HeaderProps) {
   return (
@@ -17,13 +20,10 @@ export function Header(props: HeaderProps) {
           />
         </a>
         <h1 class="text-2xl">Welcome to da Blog</h1>
-        <a href="/">
-          <img
-            class="my-6 h-14 w-14"
-            src="/logo.svg"
-            alt="the Fresh logo: a sliced lemon dripping with juice"
-          />
-        </a>
+        <GitHubAvatar
+          login="laclemen92"
+          size={32}
+        />
       </nav>
     </header>
   );

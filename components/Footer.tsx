@@ -1,4 +1,5 @@
-import GithubIcon from "./icons/GithubIcon.tsx";
+// import GithubIcon from "./icons/GithubIcon.tsx";
+import IconBrandGithub from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github.tsx";
 
 export function Footer() {
   return (
@@ -8,7 +9,7 @@ export function Footer() {
           class="hover:underline flex gap-2 items-center"
           href="https://github.com/laclemen92/fresh-blog"
         >
-          <GithubIcon class="h-5 w-5 text-black" />
+          <IconBrandGithub class="h-6 w-6 text-black" />
         </a>
         <a
           class="flex items-center gap-2 text-gray-700"
