@@ -3,10 +3,10 @@ import IconBrandGithub from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/bran
 
 export function Footer() {
   return (
-    <footer class="md:h-16 flex mt-16 justify-end md:mx-16 sm:mx-4">
+    <footer class="fixed inset-x-0 bottom-0 md:h-16 flex mt-16 justify-end md:mx-16 mx-4 h-12">
       <span class="flex items-center gap-2">
         <a
-          class="hover:underline flex gap-2 items-center"
+          class="rounded-full bg-white inline-block aspect-square hover:underline flex gap-2 items-center"
           href="https://github.com/laclemen92/fresh-blog"
         >
           <IconBrandGithub class="h-6 w-6 text-black" />
