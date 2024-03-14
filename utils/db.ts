@@ -16,6 +16,7 @@ export interface Post {
   userLogin: string;
   title: string;
   url: string;
+  slug: string;
   content: string;
 }
 
@@ -27,17 +28,21 @@ export function randomPost(): Post {
     title: crypto.randomUUID(),
     url: `http://${crypto.randomUUID()}.com`,
     content: crypto.randomUUID(),
+    slug: crypto.randomUUID(),
   };
 }
 
 export async function createPost(post: Post) {
   const postsKey = ["posts", post.id];
+  const postsBySlugKey = ["posts_by_slug", post.slug];
   const postsByUserKey = ["posts_by_user", post.userLogin, post.id];
 
   const res = await kv.atomic()
     .check({ key: postsKey, versionstamp: null })
+    .check({ key: postsBySlugKey, versionstamp: null })
     .check({ key: postsByUserKey, versionstamp: null })
     .set(postsKey, post)
+    .set(postsBySlugKey, post)
     .set(postsByUserKey, post)
     .commit();
 
@@ -46,6 +51,11 @@ export async function createPost(post: Post) {
 
 export async function getPost(id: string) {
   const res = await kv.get<Post>(["posts", id]);
+  return res.value;
+}
+
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const res = await kv.get<Post>(["posts_by_slug", slug]);
   return res.value;
 }
 
