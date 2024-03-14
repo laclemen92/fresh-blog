@@ -1,9 +1,9 @@
 import { User } from "@/utils/db.ts";
-import { GitHubAvatar } from "@/components/GitHubAvatar.tsx";
+import { Avatar } from "@/components/Avatar.tsx";
 
 export interface HeaderProps {
   sessionUser?: User;
-  // url: URL;
+  url: URL;
 }
 
 // need to show the avatar image or sign in button on top right
@@ -28,9 +28,23 @@ export function Header(props: HeaderProps) {
         </div>
         <nav class="flex hidden md:flex">
           <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
+            <li>
+              <a href="/posts">Posts</a>
+            </li>
+            {props.sessionUser
+              ? (
+                <a href="/signout" class="link-styles nav-item">
+                  Sign out
+                </a>
+              )
+              : (
+                <a href="/signin" class="link-styles nav-item">
+                  Sign in
+                </a>
+              )}
             <li class="flex items-center">
-              <GitHubAvatar
-                login="laclemen92"
+              <Avatar
+                login={props?.sessionUser?.login || null}
                 size={32}
               />
             </li>
@@ -40,8 +54,11 @@ export function Header(props: HeaderProps) {
       <nav class="flex md:hidden pb-3">
         <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
           <li class="flex items-center">
-            <GitHubAvatar
-              login="laclemen92"
+            <li>
+              <a href="/posts">Posts</a>
+            </li>
+            <Avatar
+              login={props?.sessionUser?.login || null}
               size={32}
             />
           </li>

@@ -1,5 +1,9 @@
-import { type PageProps } from "$fresh/server.ts";
-export default function App({ Component }: PageProps) {
+import { defineApp } from "$fresh/server.ts";
+import type { State } from "@/plugins/session.ts";
+import { Header } from "@/components/Header.tsx";
+import { Footer } from "@/components/Footer.tsx";
+
+export default defineApp<State>((_, ctx) => {
   return (
     <html>
       <head>
@@ -9,8 +13,12 @@ export default function App({ Component }: PageProps) {
         <link rel="stylesheet" href="/styles.css" />
       </head>
       <body>
-        <Component />
+        <div class="bg-white h-full">
+          <Header url={ctx.url} sessionUser={ctx.state?.sessionUser} />
+          <ctx.Component />
+          <Footer />
+        </div>
       </body>
     </html>
   );
-}
+});
