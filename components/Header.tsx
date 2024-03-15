@@ -6,8 +6,6 @@ export interface HeaderProps {
   url: URL;
 }
 
-// need to show the avatar image or sign in button on top right
-
 export function Header(props: HeaderProps) {
   return (
     <>

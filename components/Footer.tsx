@@ -1,15 +1,14 @@
-// import GithubIcon from "./icons/GithubIcon.tsx";
-import IconBrandGithub from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github.tsx";
+import IconBrandGithubFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github-filled.tsx";
 
 export function Footer() {
   return (
     <footer class="fixed inset-x-0 bottom-0 md:h-16 flex mt-16 justify-end md:mx-16 mx-4 h-12">
       <span class="flex items-center gap-2">
         <a
-          class="rounded-full bg-white inline-block aspect-square hover:underline flex gap-2 items-center"
+          class="hover:underline flex gap-2 items-center"
           href="https://github.com/laclemen92/fresh-blog"
         >
-          <IconBrandGithub class="h-6 w-6 text-black" />
+          <IconBrandGithubFilled class="h-6 w-6 text-black" />
         </a>
         <a
           class="flex items-center gap-2 text-gray-700"
