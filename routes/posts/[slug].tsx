@@ -2,6 +2,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
 import { getPost } from "@/utils/db.ts";
+import Error404 from "@/routes/_404.tsx";
 
 interface Page {
   markdown: string;
@@ -22,7 +23,7 @@ export const handler: Handlers<Page> = {
 
 export default function MarkdownPage({ data }: PageProps<Page | null>) {
   if (!data) {
-    return <h1>Post not found.</h1>;
+    return <Error404 />;
   }
 
   return (
