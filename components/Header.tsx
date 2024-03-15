@@ -1,5 +1,6 @@
 import { User } from "@/utils/db.ts";
 import { Avatar } from "@/components/Avatar.tsx";
+import { Button } from "@/components/Button.tsx";
 
 export interface HeaderProps {
   sessionUser?: User;
@@ -26,19 +27,41 @@ export function Header(props: HeaderProps) {
         </div>
         <nav class="flex hidden md:flex">
           <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
-            <li>
-              <a href="/posts">Posts</a>
-            </li>
             {props.sessionUser
               ? (
-                <a href="/signout" class="link-styles nav-item">
-                  Sign out
-                </a>
+                <li>
+                  <Button
+                    href="/posts/new"
+                    style="primary"
+                    type="anchor"
+                  >
+                    New Post
+                  </Button>
+                </li>
+              )
+              : null}
+            {props.sessionUser
+              ? (
+                <li>
+                  <Button
+                    href="/signout"
+                    style="secondary"
+                    type="anchor"
+                  >
+                    Sign out
+                  </Button>
+                </li>
               )
               : (
-                <a href="/signin" class="link-styles nav-item">
-                  Sign in
-                </a>
+                <li>
+                  <Button
+                    href="/signin"
+                    style="secondary"
+                    type="anchor"
+                  >
+                    Sign in
+                  </Button>
+                </li>
               )}
             {props.sessionUser
               ? (
