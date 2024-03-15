@@ -20,6 +20,8 @@ export function PostEditor() {
       },
       body: JSON.stringify(post),
     });
+
+    window.location.href = `/posts/${post.slug}`;
   };
 
   const handleMarkdownChange = (e: Event) => {
@@ -27,7 +29,7 @@ export function PostEditor() {
   };
 
   return (
-    <form action="#">
+    <form action="/">
       <div>
         <div class="flex items-center">
           <div>Welcome</div>
