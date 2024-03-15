@@ -31,13 +31,10 @@ export default function MarkdownPage({ data }: PageProps<Page | null>) {
       <Head>
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
       </Head>
-      <main>
-        {/* <div>{JSON.stringify(data.data)}</div> */}
-        <div
-          class="markdown-body"
-          dangerouslySetInnerHTML={{ __html: render(data?.markdown) }}
-        />
-      </main>
+      <div
+        class="markdown-body"
+        dangerouslySetInnerHTML={{ __html: render(data?.markdown) }}
+      />
     </>
   );
 }

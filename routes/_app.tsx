@@ -15,8 +15,10 @@ export default defineApp<State>((_, ctx) => {
       <body>
         <div class="bg-white min-h-screen flex flex-col">
           <Header url={ctx.url} sessionUser={ctx.state?.sessionUser} />
-          <div class="flex flex-row px-8 pt-8 pb-20 grow">
-            <ctx.Component />
+          <div class="flex flex-row px-8 pt-8 pb-20 flex-auto flex-grow min-h-0">
+            <div class="flex flex-col flex-1 gap-3">
+              <ctx.Component />
+            </div>
           </div>
           <Footer />
         </div>

@@ -31,16 +31,18 @@ export function PostEditor() {
   };
 
   return (
-    <div class="grid grid-rows-8 grid-cols-8 gap-4 auto-cols-max">
-      <div class="col-start-2 col-end-4">Welcome</div>
-      <div class="col-end-8 col-span-1">
-        <Button type="button" style="secondary" htmlClass="float-right">
-          <IconCode class="h-6 w-6" />
-        </Button>
+    <>
+      <div class="flex flex-row flex-none gap-3 items-center justify-between">
+        <div class="">Welcome</div>
+        <div class="">
+          <Button type="button" style="secondary" htmlClass="float-right">
+            <IconCode class="h-6 w-6" />
+          </Button>
+        </div>
       </div>
-      <div class="row-start-2 row-end-8 col-start-2 col-end-8">
+      <div class="flex grow">
         <textarea
-          class="block w-full h-full rounded-md border-0 py-1.5 text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:ring-0 focus:outline-2 focus:outline-indigo-600 sm:text-sm sm:leading-6 resize-none scroll-smooth"
+          class="block w-full grow rounded-md border-0 py-1.5 text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:ring-0 focus:outline-2 focus:outline-indigo-600 sm:text-sm sm:leading-6 resize-none scroll-smooth"
           placeholder="Put your post in some awesome markdown here!"
           onKeyPress={handleMarkdownChange}
           onPaste={handleMarkdownChange}
@@ -48,7 +50,7 @@ export function PostEditor() {
         >
         </textarea>
       </div>
-      <div class="row-start-8 col-end-8 col-span-1">
+      <div class="flex-none">
         <Button
           onClick={handleSubmit}
           style="primary"
@@ -58,6 +60,6 @@ export function PostEditor() {
           Post
         </Button>
       </div>
-    </div>
+    </>
   );
 }
