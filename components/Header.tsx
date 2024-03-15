@@ -40,12 +40,16 @@ export function Header(props: HeaderProps) {
                   Sign in
                 </a>
               )}
-            <li class="flex items-center">
-              <Avatar
-                login={props?.sessionUser?.login || null}
-                size={32}
-              />
-            </li>
+            {props.sessionUser
+              ? (
+                <li class="flex items-center">
+                  <Avatar
+                    login={props?.sessionUser?.login || null}
+                    size={32}
+                  />
+                </li>
+              )
+              : null}
           </ul>
         </nav>
       </header>
