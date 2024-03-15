@@ -1,9 +1,11 @@
+import preact from "preact";
+
 export interface ButtonProps {
   type: "button" | "anchor";
   href?: string;
   style: "primary" | "secondary";
   //   text: string;
-  children: any;
+  children: preact.JSX.Element | string;
   onClick?: (e: Event) => Promise<void>;
   htmlClass?: string;
 }
