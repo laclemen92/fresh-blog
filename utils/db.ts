@@ -33,30 +33,34 @@ export function randomPost(): Post {
 }
 
 export async function createPost(post: Post) {
-  const postsKey = ["posts", post.id];
-  const postsBySlugKey = ["posts_by_slug", post.slug];
-  const postsByUserKey = ["posts_by_user", post.userLogin, post.id];
+  const postsKey = ["posts", post.slug];
+  const postsByUserKey = ["posts_by_user", post.userLogin, post.slug];
 
   const res = await kv.atomic()
     .check({ key: postsKey, versionstamp: null })
-    .check({ key: postsBySlugKey, versionstamp: null })
     .check({ key: postsByUserKey, versionstamp: null })
     .set(postsKey, post)
-    .set(postsBySlugKey, post)
     .set(postsByUserKey, post)
     .commit();
 
   if (!res.ok) throw new Error("Failed to create post");
 }
 
-export async function getPost(id: string) {
-  const res = await kv.get<Post>(["posts", id]);
+export async function getPost(slug: string) {
+  const res = await kv.get<Post>(["posts", slug]);
   return res.value;
 }
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const res = await kv.get<Post>(["posts_by_slug", slug]);
-  return res.value;
+export async function updatePost(slug: string, post: Post) {
+  const postsKey = ["posts", slug];
+  const postsByUserKey = ["posts_by_user", post.userLogin, slug];
+
+  const res = await kv.atomic()
+    .set(postsKey, post)
+    .set(postsByUserKey, post)
+    .commit();
+
+  if (!res.ok) throw new Error("Failed to update post");
 }
 
 export function listPosts(options?: Deno.KvListOptions) {

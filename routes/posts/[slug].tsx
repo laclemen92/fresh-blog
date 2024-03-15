@@ -1,22 +1,19 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { extract } from "$std/front_matter/yaml.ts";
 import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
-import { getPostBySlug } from "@/utils/db.ts";
+import { getPost } from "@/utils/db.ts";
 
 interface Page {
   markdown: string;
-  data: Record<string, unknown>;
 }
 
 export const handler: Handlers<Page> = {
   async GET(_req, ctx) {
     const slug = ctx.params.slug;
-    const post = await getPostBySlug(slug);
+    const post = await getPost(slug);
 
     if (post) {
-      const { attrs, body } = extract(post.content);
-      return ctx.render({ markdown: body, data: attrs });
+      return ctx.render({ markdown: post.content });
     }
 
     return ctx.render(undefined);
