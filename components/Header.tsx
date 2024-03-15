@@ -11,7 +11,7 @@ export function Header(props: HeaderProps) {
   return (
     <>
       {/* max-w-screen-xl - this made it have a lot of margin on sides */}
-      <header class="mx-auto flex gap-3 items-center justify-between">
+      <header class="flex flex-row gap-3 items-center justify-between">
         <div class="p-4 flex items-center">
           <a href="/" class="flex mr-3 items-center">
             <img

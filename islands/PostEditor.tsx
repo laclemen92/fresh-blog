@@ -31,38 +31,33 @@ export function PostEditor() {
   };
 
   return (
-    <form action="/">
-      <div>
-        <div class="flex items-center">
-          <div>Welcome</div>
-          <div class="ml-auto flex items-center space-x-5">
-            <div class="flex items-center">
-              <Button type="button" style="secondary">
-                <IconCode class="h-6 w-6" />
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div class="mt-2">
-          <div class="-m-0.5 rounded-lg p-0.5">
-            <div>
-              <textarea
-                class="block w-full h-96 rounded-md border-0 py-1.5 text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:ring-0 focus:outline-2 focus:outline-indigo-600 sm:text-sm sm:leading-6 resize-none scroll-smooth"
-                placeholder="Put your post in some awesome markdown here!"
-                onKeyPress={handleMarkdownChange}
-                onPaste={handleMarkdownChange}
-                onInput={handleMarkdownChange}
-              >
-              </textarea>
-            </div>
-          </div>
-        </div>
+    <div class="grid grid-rows-8 grid-cols-8 gap-4 auto-cols-max">
+      <div class="col-start-2 col-end-4">Welcome</div>
+      <div class="col-end-8 col-span-1">
+        <Button type="button" style="secondary" htmlClass="float-right">
+          <IconCode class="h-6 w-6" />
+        </Button>
       </div>
-      <div class="mt-2 flex justify-end">
-        <Button onClick={handleSubmit} style="primary" type="button">
+      <div class="row-start-2 row-end-8 col-start-2 col-end-8">
+        <textarea
+          class="block w-full h-full rounded-md border-0 py-1.5 text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:ring-0 focus:outline-2 focus:outline-indigo-600 sm:text-sm sm:leading-6 resize-none scroll-smooth"
+          placeholder="Put your post in some awesome markdown here!"
+          onKeyPress={handleMarkdownChange}
+          onPaste={handleMarkdownChange}
+          onInput={handleMarkdownChange}
+        >
+        </textarea>
+      </div>
+      <div class="row-start-8 col-end-8 col-span-1">
+        <Button
+          onClick={handleSubmit}
+          style="primary"
+          type="button"
+          htmlClass="float-right"
+        >
           Post
         </Button>
       </div>
-    </form>
+    </div>
   );
 }
