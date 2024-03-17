@@ -8,6 +8,9 @@ export interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
+  const toggleMenu = async (e: Event) => {
+  };
+
   return (
     <>
       {/* max-w-screen-xl - this made it have a lot of margin on sides */}
@@ -75,20 +78,35 @@ export function Header(props: HeaderProps) {
               : null}
           </ul>
         </nav>
-      </header>
-      <nav class="flex md:hidden pb-3">
-        <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
-          <li class="flex items-center">
-            <li>
-              <a href="/posts">Posts</a>
+        <nav class="flex md:hidden pb-3">
+          <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
+            <li class="flex items-center">
+              {props.sessionUser
+                ? (
+                  <li class="flex items-center">
+                    <Button onClick={toggleMenu} type="avatar">
+                      <Avatar
+                        login={props?.sessionUser?.login || null}
+                        size={32}
+                      />
+                    </Button>
+                  </li>
+                )
+                : (
+                  <li>
+                    <Button
+                      href="/signin"
+                      style="secondary"
+                      type="anchor"
+                    >
+                      Sign in
+                    </Button>
+                  </li>
+                )}
             </li>
-            <Avatar
-              login={props?.sessionUser?.login || null}
-              size={32}
-            />
-          </li>
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      </header>
     </>
   );
 }

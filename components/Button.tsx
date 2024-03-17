@@ -1,9 +1,9 @@
 import preact from "preact";
 
 export interface ButtonProps {
-  type: "button" | "anchor";
+  type: "button" | "anchor" | "avatar";
   href?: string;
-  style: "primary" | "secondary";
+  style?: "primary" | "secondary";
   //   text: string;
   children: preact.JSX.Element | string;
   onClick?: (e: Event) => Promise<void>;
@@ -26,7 +26,7 @@ export function Button(props: ButtonProps) {
     },
   };
 
-  if (props.type === "anchor" && props.href) {
+  if (props.type === "anchor" && props.href && props.style) {
     return (
       <a
         href={props.href}
@@ -41,7 +41,7 @@ export function Button(props: ButtonProps) {
         {props.children}
       </a>
     );
-  } else if (props.type === "button") {
+  } else if (props.type === "button" && props.style) {
     return (
       <button
         class={`rounded-lg ${
@@ -51,6 +51,14 @@ export function Button(props: ButtonProps) {
         } shadow-sm ring-1 ring-inset ${styles[props.style].ring} ${
           styles[props.style].hover
         } ${props.htmlClass || ""}`}
+        onClick={props.onClick}
+      >
+        {props.children}
+      </button>
+    );
+  } else if (props.type === "avatar") {
+    return (
+      <button
         onClick={props.onClick}
       >
         {props.children}
