@@ -29,7 +29,7 @@ export function Header(props: HeaderProps) {
           </a>
         </div>
         <nav class="flex hidden md:flex">
-          <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
+          <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap md:mx-8">
             {props.sessionUser
               ? (
                 <li>
@@ -79,7 +79,7 @@ export function Header(props: HeaderProps) {
           </ul>
         </nav>
         <nav class="flex md:hidden pb-3">
-          <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap lg:mx-8 2xl:mr-0">
+          <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap md:mx-8">
             <li class="flex items-center">
               {props.sessionUser
                 ? (
