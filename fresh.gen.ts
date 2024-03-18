@@ -10,6 +10,7 @@ import * as $posts_slug_ from "./routes/posts/[slug].tsx";
 import * as $posts_index from "./routes/posts/index.tsx";
 import * as $posts_new from "./routes/posts/new.tsx";
 import * as $Banner from "./islands/Banner.tsx";
+import * as $Button from "./islands/Button.tsx";
 import * as $PostEditor from "./islands/PostEditor.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -25,6 +26,7 @@ const manifest = {
   },
   islands: {
     "./islands/Banner.tsx": $Banner,
+    "./islands/Button.tsx": $Button,
     "./islands/PostEditor.tsx": $PostEditor,
   },
   baseUrl: import.meta.url,
