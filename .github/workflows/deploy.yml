@@ -1,9 +1,13 @@
 name: Deploy
 on:
   push:
-    branches: [*]
+    branches:
+      - main
+      -'feature/**'
   pull_request:
-    branches: *
+    branches:
+      - main
+      -'feature/**'
 
 jobs:
   deploy:
