@@ -1,6 +1,6 @@
 import { User } from "@/utils/db.ts";
 import { Avatar } from "@/components/Avatar.tsx";
-import { Button } from "@/components/Button.tsx";
+import { Button } from "@/islands/Button.tsx";
 
 export interface HeaderProps {
   sessionUser?: User;
