@@ -54,9 +54,6 @@ export function PostEditor() {
               </Button>
             </Tab>
           </div>
-          <Button type="button" style="secondary" htmlClass="float-right">
-            <IconCode class="h-6 w-6" />
-          </Button>
         </Tab.List>
         <Tab.Panels className={"flex grow"}>
           <Tab.Panel className={"flex grow"}>
