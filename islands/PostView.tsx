@@ -29,7 +29,7 @@ export default function PostView(props: {
               }}
               style="primary"
               type="button"
-              htmlClass="float-right"
+              htmlClass="float-right rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
             >
               Edit
             </Button>

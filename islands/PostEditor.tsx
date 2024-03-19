@@ -118,52 +118,87 @@ export function PostEditor(props: { post?: Post }) {
                   Preview
                 </Tab>
               </div>
-              {/* <Button type="button" style="secondary" htmlClass="float-right"> */}
               {selectedIndex === 0
                 ? (
                   <div class="flex gap-2">
-                    <button
-                      type="button"
-                      class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                    <Button
                       onClick={addNewHeading}
-                    >
-                      <IconHeading class="h-5 w-5" />
-                    </button>
-                    <button
                       type="button"
-                      class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Heading"
+                      tooltipId="tooltip-heading"
+                    >
+                      <IconHeading
+                        data-tooltip-target="tooltip-heading"
+                        class="h-5 w-5"
+                      />
+                    </Button>
+                    <Button
+                      type="button"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Bold"
+                      tooltipId="tooltip-bold"
                       onClick={addBold}
                     >
-                      <IconBold class="h-5 w-5" />
-                    </button>
-                    <button
+                      <IconBold
+                        data-tooltip-target="tooltip-bold"
+                        class="h-5 w-5"
+                      />
+                    </Button>
+                    <Button
                       type="button"
-                      class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Italics"
+                      tooltipId="tooltip-italics"
                       onClick={addItalics}
                     >
-                      <IconItalic class="h-5 w-5" />
-                    </button>
-                    <button
+                      <IconItalic
+                        data-tooltip-target="tooltip-italics"
+                        class="h-5 w-5"
+                      />
+                    </Button>
+                    <Button
                       type="button"
-                      class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Quote"
+                      tooltipId="tooltip-quote"
                       onClick={addQuote}
                     >
-                      <IconBlockquote class="h-5 w-5" />
-                    </button>
-                    <button
+                      <IconBlockquote
+                        data-tooltip-target="tooltip-quote"
+                        class="h-5 w-5"
+                      />
+                    </Button>
+                    <Button
                       type="button"
-                      class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Code"
+                      tooltipId="tooltip-code"
                       onClick={addCode}
                     >
-                      <IconCode class="h-5 w-5" />
-                    </button>
-                    <button
+                      <IconCode
+                        data-tooltip-target="tooltip-code"
+                        class="h-5 w-5"
+                      />
+                    </Button>
+                    <Button
                       type="button"
-                      class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Link"
+                      tooltipId="tooltip-link"
                       onClick={addLink}
                     >
-                      <IconLink class="h-5 w-5" />
-                    </button>
+                      <IconLink
+                        data-tooltip-target="tooltip-link"
+                        class="h-5 w-5"
+                      />
+                    </Button>
                   </div>
                 )
                 : null}
