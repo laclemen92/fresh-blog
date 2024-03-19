@@ -1,6 +1,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { listPosts, Post } from "@/utils/db.ts";
+import PostList from "@/islands/PostList.tsx";
 
 interface Props {
   posts: Deno.KvEntry<Post>[];
@@ -33,25 +34,7 @@ export default function Posts({ data }: PageProps<Props | null>) {
       <Head>
         <title>Posts</title>
       </Head>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <div
-            key={post.value.slug}
-            class="bg-white shadow overflow-hidden sm:rounded-lg"
-          >
-            <a href={`/posts/${post.value.slug}`}>
-              <div class="px-4 py-5 sm:px-6">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">
-                  {post.value.title}
-                </h3>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                  {post.value.userLogin}
-                </p>
-              </div>
-            </a>
-          </div>
-        ))}
-      </div>
+      <PostList posts={posts} />
     </>
   );
 }
