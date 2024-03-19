@@ -254,14 +254,24 @@ export function PostEditor(props: { post?: Post }) {
           </>
         )}
       </Tab.Group>
-      <div class="flex-none">
+      <div class="flex flex-row-reverse gap-2">
         <Button
           onClick={handleSubmit}
           style="primary"
           type="button"
-          htmlClass="float-right rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
+          htmlClass="rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
         >
-          Post
+          {isEditing ? "Save" : "Post"}
+        </Button>
+        <Button
+          onClick={(e) => {
+          }}
+          style="secondary"
+          type="anchor"
+          htmlClass="rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
+          href={`/posts/${props.post?.slug}`}
+        >
+          Discard
         </Button>
       </div>
       {/* </form> */}
