@@ -35,7 +35,8 @@
     "kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.9.1/",
     "@tailwindcss/forms": "npm:/@tailwindcss/forms@0.5.7",
     "@tailwindcss/forms/": "npm:/@tailwindcss/forms@0.5.7/",
-    "@headlessui/react": "https://esm.sh/@headlessui/react@1.6.6?alias=react:preact/compat,react-dom:preact/compat,@types/react:preact/compat&external=preact"
+    "@headlessui/react": "https://esm.sh/@headlessui/react@1.6.6?alias=react:preact/compat,react-dom:preact/compat,@types/react:preact/compat&external=preact",
+    "$flowbite/": "https://deno.land/x/fresh_flowbite@1.0.0-1.7.0/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

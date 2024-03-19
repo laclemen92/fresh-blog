@@ -11,6 +11,10 @@ export default defineApp<State>((_, ctx) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>fresh-blog</title>
         <link rel="stylesheet" href="/styles.css" />
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+          rel="stylesheet"
+        />
       </head>
       <body>
         <div class="bg-white min-h-screen flex flex-col">
