@@ -20,7 +20,7 @@ export default function PostView(props: {
       <Head>
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
       </Head>
-      {sessionUser?.login === post.userLogin
+      {sessionUser?.login === post.userLogin && sessionUser?.role === "admin"
         ? (
           <div class="flex-none">
             <Button
