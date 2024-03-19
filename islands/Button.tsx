@@ -11,6 +11,7 @@ export interface ButtonProps {
   tooltip?: boolean;
   tooltipContent?: string;
   tooltipId?: string;
+  dataDropdownToggle?: string;
 }
 
 export function Button(props: ButtonProps) {
@@ -31,17 +32,30 @@ export function Button(props: ButtonProps) {
 
   const htmlClass = props.htmlClass || "";
 
-  if (props.type === "anchor" && props.href && props.style) {
+  if (props.type === "anchor" && props.href) {
+    const classes: string[] = [
+      ...htmlClass.split(" "),
+    ];
+
+    if (props.style) {
+      classes.push(styles[props.style].background);
+      classes.push(styles[props.style].text);
+      classes.push(styles[props.style].ring);
+      classes.push(styles[props.style].hover);
+      classes.push("rounded-lg");
+      classes.push("px-3");
+      classes.push("py-2");
+      classes.push("text-sm");
+      classes.push("font-semibold");
+      classes.push("shadow-sm");
+      classes.push("ring-1");
+      classes.push("ring-inset");
+    }
+
     return (
       <a
         href={props.href}
-        class={`rounded-lg ${
-          styles[props.style].background
-        } px-3 py-2 text-sm font-semibold ${
-          styles[props.style].text
-        } shadow-sm ring-1 ring-inset ${styles[props.style].ring} ${
-          styles[props.style].hover
-        } ${props.htmlClass || ""}`}
+        class={`${classes.join(" ") || ""}`}
       >
         {props.children}
       </a>
@@ -82,6 +96,7 @@ export function Button(props: ButtonProps) {
     return (
       <button
         onClick={props.onClick}
+        data-dropdown-toggle={props.dataDropdownToggle || ""}
       >
         {props.children}
       </button>

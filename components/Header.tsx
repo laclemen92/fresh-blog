@@ -28,11 +28,11 @@ export function Header(props: HeaderProps) {
             <h1 class="text-xl">Welcome to da Blog</h1>
           </a>
         </div>
-        <nav class="flex hidden md:flex">
+        <nav class="flex">
           <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap md:mx-8">
             {props.sessionUser
               ? (
-                <li>
+                <li class="hidden md:flex">
                   <Button
                     href="/posts/new"
                     style="primary"
@@ -43,19 +43,8 @@ export function Header(props: HeaderProps) {
                 </li>
               )
               : null}
-            {props.sessionUser
+            {!props.sessionUser
               ? (
-                <li>
-                  <Button
-                    href="/signout"
-                    style="secondary"
-                    type="anchor"
-                  >
-                    Sign out
-                  </Button>
-                </li>
-              )
-              : (
                 <li>
                   <Button
                     href="/signin"
@@ -65,47 +54,63 @@ export function Header(props: HeaderProps) {
                     Sign in
                   </Button>
                 </li>
-              )}
+              )
+              : null}
             {props.sessionUser
               ? (
                 <li class="flex items-center">
-                  <Avatar
-                    login={props?.sessionUser?.login || null}
-                    size={32}
-                  />
+                  <Button
+                    onClick={toggleMenu}
+                    type="avatar"
+                    dataDropdownToggle="header-menu-dropdown"
+                  >
+                    <Avatar
+                      login={props?.sessionUser?.login || null}
+                      size={32}
+                    />
+                  </Button>
+                  <div
+                    id="header-menu-dropdown"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
+                  >
+                    <ul
+                      class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                      aria-labelledby="dropdownDefaultButton"
+                    >
+                      <li>
+                        <a
+                          href="#"
+                          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          Settings
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          Earnings
+                        </a>
+                      </li>
+                      <li>
+                        <Button
+                          href="/signout?success_url=/"
+                          // style="secondary"
+                          htmlClass="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          type="anchor"
+                        >
+                          Sign out
+                        </Button>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
               )
               : null}
           </ul>
         </nav>
-        <nav class="flex md:hidden pb-3">
-          <ul class="flex justify-center items-center gap-2 sm:gap-4 mx-4 my-2 sm:my-6 flex-wrap md:mx-8">
-            <li class="flex items-center">
-              {props.sessionUser
-                ? (
-                  <li class="flex items-center">
-                    <Button onClick={toggleMenu} type="avatar">
-                      <Avatar
-                        login={props?.sessionUser?.login || null}
-                        size={32}
-                      />
-                    </Button>
-                  </li>
-                )
-                : (
-                  <li>
-                    <Button
-                      href="/signin"
-                      style="secondary"
-                      type="anchor"
-                    >
-                      Sign in
-                    </Button>
-                  </li>
-                )}
-            </li>
-          </ul>
-        </nav>
+        {/* mobile menu */}
       </header>
     </>
   );
