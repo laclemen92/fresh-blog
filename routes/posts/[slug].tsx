@@ -1,11 +1,12 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { CSS, render } from "$gfm";
-import { Head } from "$fresh/runtime.ts";
 import { getPost } from "@/utils/db.ts";
 import Error404 from "@/routes/_404.tsx";
+import type { State } from "@/plugins/session.ts";
+import type { Post } from "@/utils/db.ts";
+import PostView from "@/islands/PostView.tsx";
 
 interface Page {
-  markdown: string;
+  post: Post;
 }
 
 export const handler: Handlers<Page> = {
@@ -14,27 +15,25 @@ export const handler: Handlers<Page> = {
     const post = await getPost(slug);
 
     if (post) {
-      return ctx.render({ markdown: post.content });
+      return ctx.render({
+        post,
+      });
     }
 
     return ctx.render(undefined);
   },
 };
 
-export default function MarkdownPage({ data }: PageProps<Page | null>) {
+export default function MarkdownPage({ data, state }: PageProps<Page | null>) {
+  const { sessionUser }: State = state;
+
   if (!data) {
     return <Error404 />;
   }
 
   return (
     <>
-      <Head>
-        <style dangerouslySetInnerHTML={{ __html: CSS }} />
-      </Head>
-      <div
-        class="markdown-body"
-        dangerouslySetInnerHTML={{ __html: render(data?.markdown) }}
-      />
+      <PostView data={data} sessionUser={sessionUser} />
     </>
   );
 }
