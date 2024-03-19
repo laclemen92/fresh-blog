@@ -23,6 +23,10 @@ export function PostEditor(props: { post?: Post }) {
   const content = props?.post?.content
     ? useSignal(props.post.content)
     : useSignal("");
+  const title = props?.post?.title
+    ? useSignal(props.post.title)
+    : useSignal("");
+  // const titleValue = title.value;
   const value = content.value;
 
   const handleSubmit = async (e: any) => {
@@ -100,12 +104,16 @@ export function PostEditor(props: { post?: Post }) {
               Email
             </label>
             <input
+              value={title}
               type="text"
               name="title"
               id="title"
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:ring-0 focus:outline-2 focus:outline-gray-900 sm:text-sm sm:leading-6"
               placeholder="Post title"
               ref={titleRef}
+              onChange={(e: Event) => {
+                title.value = (e?.target as HTMLInputElement)?.value;
+              }}
             />
             <Tab.List
               className={"flex flex-row flex-none gap-3 items-center justify-between"}
