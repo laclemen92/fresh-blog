@@ -22,7 +22,7 @@ export default function PostView(props: {
       </Head>
       {sessionUser?.login === post.userLogin && sessionUser?.role === "admin"
         ? (
-          <div class="flex-none">
+          <div class="flex flex-row-reverse gap-2">
             <Button
               onClick={(e) => {
                 isEditing.value = !isEditing.value;
@@ -33,6 +33,24 @@ export default function PostView(props: {
               href={`/posts/edit/${post.slug}`}
             >
               Edit
+            </Button>
+            <Button
+              onClick={async (e) => {
+                const resp = await fetch(`/api/posts`, {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(post),
+                });
+
+                window.location.href = `/posts`;
+              }}
+              style="danger"
+              type="button"
+              htmlClass="float-right rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
+            >
+              Delete
             </Button>
           </div>
         )
