@@ -44,7 +44,7 @@ export default function PostView(props: {
                   body: JSON.stringify(post),
                 });
 
-                window.location.href = `/posts`;
+                window.location.href = `/user/${sessionUser.login}/posts`;
               }}
               style="danger"
               type="button"
