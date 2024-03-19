@@ -18,6 +18,7 @@ export interface Post {
   url: string;
   slug: string;
   content: string;
+  deleted?: boolean;
 }
 
 /** For testing */
@@ -61,6 +62,13 @@ export async function updatePost(slug: string, post: Post) {
     .commit();
 
   if (!res.ok) throw new Error("Failed to update post");
+}
+
+export async function deletePost(slug: string) {
+  const post = await getPost(slug);
+  if (post === null) return;
+  post.deleted = true;
+  await updatePost(slug, post);
 }
 
 export function listPosts(options?: Deno.KvListOptions) {
