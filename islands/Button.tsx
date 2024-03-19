@@ -3,7 +3,7 @@ import preact from "preact";
 export interface ButtonProps {
   type: "button" | "anchor" | "avatar";
   href?: string;
-  style?: "primary" | "secondary";
+  style?: "primary" | "secondary" | "danger";
   //   text: string;
   children: preact.JSX.Element | string;
   onClick?: (e: Event) => Promise<void> | void;
@@ -27,6 +27,12 @@ export function Button(props: ButtonProps) {
       text: "text-gray-900",
       ring: "ring-gray-300",
       hover: "hover:bg-gray-50",
+    },
+    danger: {
+      background: "bg-red-500",
+      text: "text-white",
+      ring: "ring-red-500",
+      hover: "hover:bg-red-400",
     },
   };
 
