@@ -39,7 +39,11 @@ export default function PostView(props: {
       {isEditing.value ? <PostEditor post={post} /> : (
         <div
           class="markdown-body"
-          dangerouslySetInnerHTML={{ __html: render(post.content) }}
+          dangerouslySetInnerHTML={{
+            __html: render(
+              "# ".concat(post.title).concat("\n\n").concat(post.content),
+            ),
+          }}
         />
       )}
     </>
