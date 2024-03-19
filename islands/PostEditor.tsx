@@ -1,4 +1,5 @@
-import { useSignal } from "@preact/signals";
+import { signal, useSignal } from "@preact/signals";
+import { useRef } from "preact/hooks";
 import { Post } from "@/utils/db.ts";
 import { Button } from "@/islands/Button.tsx";
 import IconHeading from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heading.tsx";
@@ -16,7 +17,10 @@ const classNames = (...classes: string[]) => {
 };
 
 export function PostEditor() {
+  // const cursorPosition = useSignal(0);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const content = useSignal("");
+  const value = content.value;
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
@@ -40,6 +44,42 @@ export function PostEditor() {
 
   const handleMarkdownChange = (e: Event) => {
     content.value = (e?.target as HTMLInputElement)?.value;
+  };
+
+  const setTextAreaHelper = (newText: string, newCursorPosition: number) => {
+    textareaRef.current?.setRangeText(newText);
+
+    const start = textareaRef.current?.selectionStart || 0;
+
+    textareaRef.current?.focus();
+    textareaRef.current?.setSelectionRange(
+      start + newCursorPosition,
+      start + newCursorPosition,
+    );
+  };
+
+  const addNewHeading = (e: Event) => {
+    setTextAreaHelper(`### `, 4);
+  };
+
+  const addBold = (e: Event) => {
+    setTextAreaHelper(`****`, 2);
+  };
+
+  const addItalics = (e: Event) => {
+    setTextAreaHelper(`__`, 1);
+  };
+
+  const addQuote = (e: Event) => {
+    setTextAreaHelper(`\n> \n`, 3);
+  };
+
+  const addCode = (e: Event) => {
+    setTextAreaHelper("``", 1);
+  };
+
+  const addLink = (e: Event) => {
+    setTextAreaHelper("[](url)", 1);
   };
 
   return (
@@ -84,36 +124,42 @@ export function PostEditor() {
                     <button
                       type="button"
                       class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      onClick={addNewHeading}
                     >
                       <IconHeading class="h-5 w-5" />
                     </button>
                     <button
                       type="button"
                       class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      onClick={addBold}
                     >
                       <IconBold class="h-5 w-5" />
                     </button>
                     <button
                       type="button"
                       class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      onClick={addItalics}
                     >
                       <IconItalic class="h-5 w-5" />
                     </button>
                     <button
                       type="button"
                       class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      onClick={addQuote}
                     >
                       <IconBlockquote class="h-5 w-5" />
                     </button>
                     <button
                       type="button"
                       class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      onClick={addCode}
                     >
                       <IconCode class="h-5 w-5" />
                     </button>
                     <button
                       type="button"
                       class="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      onClick={addLink}
                     >
                       <IconLink class="h-5 w-5" />
                     </button>
@@ -130,8 +176,9 @@ export function PostEditor() {
                     onKeyPress={handleMarkdownChange}
                     onPaste={handleMarkdownChange}
                     onInput={handleMarkdownChange}
+                    ref={textareaRef}
                   >
-                    {content.value}
+                    {value}
                   </textarea>
                 </div>
               </Tab.Panel>
