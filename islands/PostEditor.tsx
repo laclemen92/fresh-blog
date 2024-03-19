@@ -28,6 +28,7 @@ export function PostEditor(props: { post?: Post }) {
     : useSignal("");
   // const titleValue = title.value;
   const value = content.value;
+  const isEditing = props?.post ? useSignal(true) : useSignal(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -104,6 +105,7 @@ export function PostEditor(props: { post?: Post }) {
               Email
             </label>
             <input
+              disabled={isEditing.value}
               value={title}
               type="text"
               name="title"
