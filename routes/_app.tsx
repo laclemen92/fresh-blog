@@ -19,7 +19,7 @@ export default defineApp<State>((_, ctx) => {
       <body>
         <div class="bg-white min-h-screen flex flex-col">
           <Header url={ctx.url} sessionUser={ctx.state?.sessionUser} />
-          <div class="flex flex-row md:mx-8 mx-4 pt-8 pb-20 flex-auto flex-grow min-h-0">
+          <div class="flex flex-row md:mx-8 mx-8 pt-8 pb-20 flex-auto flex-grow min-h-0">
             <div class="flex flex-col flex-1 gap-3 grow">
               <ctx.Component />
             </div>
