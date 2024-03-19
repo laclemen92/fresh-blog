@@ -73,7 +73,7 @@ export default {
       middleware: { handler: ensureSignedIn },
     },
     {
-      path: "/posts/edit",
+      path: "/posts/edit/[slug]",
       middleware: { handler: ensureSignedIn },
     },
   ],

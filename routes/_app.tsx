@@ -12,7 +12,7 @@ export default defineApp<State>((_, ctx) => {
         <title>fresh-blog</title>
         <link rel="stylesheet" href="/styles.css" />
         <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.css"
           rel="stylesheet"
         />
       </head>

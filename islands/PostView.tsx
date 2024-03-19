@@ -28,8 +28,9 @@ export default function PostView(props: {
                 isEditing.value = !isEditing.value;
               }}
               style="primary"
-              type="button"
+              type="anchor"
               htmlClass="float-right rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
+              href={`/posts/edit/${post.slug}`}
             >
               Edit
             </Button>
