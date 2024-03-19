@@ -6,7 +6,7 @@ export interface ButtonProps {
   style?: "primary" | "secondary";
   //   text: string;
   children: preact.JSX.Element | string;
-  onClick?: (e: Event) => Promise<void>;
+  onClick?: (e: Event) => Promise<void> | void;
   htmlClass?: string;
 }
 

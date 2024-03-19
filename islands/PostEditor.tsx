@@ -1,4 +1,4 @@
-import { signal, useSignal } from "@preact/signals";
+import { useSignal } from "@preact/signals";
 import { useRef } from "preact/hooks";
 import { Post } from "@/utils/db.ts";
 import { Button } from "@/islands/Button.tsx";
@@ -16,10 +16,11 @@ const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
 };
 
-export function PostEditor() {
-  // const cursorPosition = useSignal(0);
+export function PostEditor(props: { post?: Post }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const content = useSignal("");
+  const content = props?.post?.content
+    ? useSignal(props.post.content)
+    : useSignal("");
   const value = content.value;
 
   const handleSubmit = async (e: Event) => {
