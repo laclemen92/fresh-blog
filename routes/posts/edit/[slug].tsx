@@ -1,5 +1,5 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { getPost } from "@/utils/db.ts";
+import { getPostBySlug } from "@/utils/db.ts";
 import Error404 from "@/routes/_404.tsx";
 import type { State } from "@/plugins/session.ts";
 import type { Post } from "@/utils/db.ts";
@@ -13,7 +13,7 @@ interface Page {
 export const handler: Handlers<Page> = {
   async GET(_req, ctx) {
     const slug = ctx.params.slug;
-    const post = await getPost(slug);
+    const post = await getPostBySlug(slug);
 
     if (post) {
       return ctx.render({

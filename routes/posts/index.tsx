@@ -9,7 +9,7 @@ interface Props {
 
 export const handler: Handlers<Props> = {
   async GET(_req, ctx) {
-    const iter = await listPosts();
+    const iter = await listPosts({ reverse: true });
     const posts = [];
 
     for await (const res of iter) posts.push(res);

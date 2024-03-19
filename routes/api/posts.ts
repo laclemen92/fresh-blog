@@ -11,7 +11,7 @@ export const handler: Handlers<undefined, SignedInState> = {
     if (!body.slug) {
       throw new BadRequestError("Slug is required");
     }
-    await deletePost(body.slug);
+    await deletePost(body.id);
     return new Response(null, { status: STATUS_CODE.NoContent });
   },
 
@@ -40,8 +40,8 @@ export const handler: Handlers<undefined, SignedInState> = {
       content: body.content,
     };
 
-    if (await getPost(post.slug)) {
-      await updatePost(post.slug, post);
+    if (await getPost(post.id)) {
+      await updatePost(post.id, post);
     } else {
       await createPost(post);
     }
