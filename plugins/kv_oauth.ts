@@ -48,10 +48,14 @@ export default {
             login: githubUser.login,
             sessionId,
             role: "user",
+            name: githubUser.name,
           };
 
           await createUser(user);
         } else {
+          if (githubUser.name) {
+            user.name = githubUser.name;
+          }
           await updateUserSession(user, sessionId);
         }
 

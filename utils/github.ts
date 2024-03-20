@@ -14,6 +14,7 @@ export function isGitHubSetup() {
 interface GitHubUser {
   login: string;
   email: string;
+  name?: string;
 }
 
 /**

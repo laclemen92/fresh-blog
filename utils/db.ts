@@ -101,6 +101,7 @@ export interface User {
   login: string;
   sessionId: string;
   role: UserRoles;
+  name?: string;
 }
 
 /** For testing */
