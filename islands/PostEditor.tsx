@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 import { useRef } from "preact/hooks";
-import { createImage, getImage, Image, Post } from "@/utils/db.ts";
+import { Post } from "@/utils/db.ts";
 import { Button } from "@/islands/Button.tsx";
 import IconHeading from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heading.tsx";
 import IconBold from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/bold.tsx";
@@ -73,7 +73,7 @@ export function PostEditor(props: { post?: Post }) {
             const imageId = ulid();
 
             const applicationService = new ApplicationAccessTokenService({
-              clientId: Deno.env.get("FLEEK_API_KEY") || "",
+              clientId: "client_Buhjymbi_l_dLTF9eGlK", // bad, need to fix this later and revoke key
             });
 
             const fleekSdk = new FleekSdk({
