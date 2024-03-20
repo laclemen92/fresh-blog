@@ -12,6 +12,7 @@ export interface ButtonProps {
   tooltipContent?: string;
   tooltipId?: string;
   dataDropdownToggle?: string;
+  dataDropdownPlacement?: string;
 }
 
 export function Button(props: ButtonProps) {
@@ -103,6 +104,7 @@ export function Button(props: ButtonProps) {
       <button
         onClick={props.onClick}
         data-dropdown-toggle={props.dataDropdownToggle || ""}
+        data-dropdown-placement={props.dataDropdownPlacement || ""}
       >
         {props.children}
       </button>
