@@ -4,7 +4,7 @@ import type { SignedInState } from "@/plugins/session.ts";
 import { createImage } from "@/utils/db.ts";
 import { BadRequestError } from "@/utils/http.ts";
 import { ulid } from "$std/ulid/mod.ts";
-import { FleekSdk, PersonalAccessTokenService } from "npm:@fleekxyz/sdk@1.0.3";
+import { FleekSdk, PersonalAccessTokenService } from "npm:@fleekxyz/sdk@1.3.3";
 
 export const handler: Handlers<undefined, SignedInState> = {
   async POST(req, _ctx) {
