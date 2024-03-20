@@ -172,3 +172,21 @@ export async function getUserBySession(sessionId: string) {
 export function listUsers(options?: Deno.KvListOptions) {
   return kv.list<User>({ prefix: ["users"] }, options);
 }
+
+// Image
+export interface Image {
+  id: string;
+  type: string;
+  name: string;
+  url: string;
+}
+
+export async function createImage(image: Image) {
+  const res = await kv.set(["images", image.id], image);
+  if (!res.ok) throw new Error("Failed to create image");
+}
+
+export async function getImage(id: string) {
+  const res = await kv.get<Image>(["images", id]);
+  return res.value;
+}
