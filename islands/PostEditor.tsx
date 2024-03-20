@@ -36,11 +36,12 @@ export function PostEditor(props: { post?: Post }) {
     e.preventDefault();
     const title = titleRef.current?.value || "";
     const postSlug = slug(title);
-    const post: Omit<Post, "id" | "userLogin"> = {
+    const post = {
       title,
       url: postSlug,
       slug: postSlug,
       content: content.value,
+      id: props.post?.id || null,
     };
 
     const resp = await fetch(`/api/posts`, {

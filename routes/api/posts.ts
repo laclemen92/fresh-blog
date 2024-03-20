@@ -30,9 +30,8 @@ export const handler: Handlers<undefined, SignedInState> = {
       throw new BadRequestError("Content is required");
     }
 
-    const postId = ulid();
     const post = {
-      id: postId,
+      id: body.id || ulid(),
       userLogin: ctx.state.sessionUser.login,
       title: body.title,
       url: body.url,
@@ -40,7 +39,7 @@ export const handler: Handlers<undefined, SignedInState> = {
       content: body.content,
     };
 
-    if (await getPost(post.id)) {
+    if (body.id && await getPost(post.id)) {
       await updatePost(post.id, post);
     } else {
       await createPost(post);
