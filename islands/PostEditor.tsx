@@ -68,45 +68,18 @@ export function PostEditor(props: { post?: Post }) {
       const items = e.clipboardData.items;
       for (const item of items) {
         if (item.kind === "file" && item.type.indexOf("image") > -1) {
-          const blob = item.getAsFile();
+          const file = item.getAsFile();
 
-          if (blob) {
-            const imageId = ulid();
-
-            const applicationService = new ApplicationAccessTokenService({
-              clientId: "client_Buhjymbi_l_dLTF9eGlK", // bad, need to fix this later and revoke key
-            });
-
-            const fleekSdk = new FleekSdk({
-              accessTokenService: applicationService,
-            });
-
-            const result = await fleekSdk.storage().uploadFile({
-              file: blob,
-              onUploadProgress: (progress) => {
-                console.error(progress);
-              },
-            });
-
-            console.error(result.pin);
-
-            const imageUrl = `https://cf-ipfs.com/ipfs/${result.pin.cid}`;
-
-            await fetch(`/api/images`, {
+          if (file) {
+            const formData = new FormData();
+            formData.append("blob", file);
+            const response = await fetch(`/api/images`, {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                url: imageUrl,
-                name: blob.name,
-                type: blob.type,
-                id: imageId,
-                postId: props.post?.id,
-              }),
+              body: formData,
             });
+            const data = await response.json();
 
-            const imageTag = `<img alt="${blob.name}" src="${imageUrl}">`;
+            const imageTag = `<img alt="${file.name}" src="${data.imageUrl}">`;
             setTextAreaHelper(imageTag, imageTag.length);
           }
         }
