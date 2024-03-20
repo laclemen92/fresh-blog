@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 import { useRef } from "preact/hooks";
-import { Post } from "@/utils/db.ts";
+import { createImage, getImage, Image, Post } from "@/utils/db.ts";
 import { Button } from "@/islands/Button.tsx";
 import IconHeading from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heading.tsx";
 import IconBold from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/bold.tsx";
@@ -12,6 +12,8 @@ import { Tab } from "@headlessui/react";
 import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
 import { slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
+import { ulid } from "$std/ulid/mod.ts";
+import { ApplicationAccessTokenService, FleekSdk } from "npm:@fleekxyz/sdk";
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
@@ -52,8 +54,78 @@ export function PostEditor(props: { post?: Post }) {
     window.location.href = `/posts/${post.slug}`;
   };
 
-  const handleMarkdownChange = (e: Event) => {
+  const handleContentKeyPress = (e: Event) => {
     content.value = (e?.target as HTMLInputElement)?.value;
+  };
+
+  const handleContentInput = (e: Event) => {
+    content.value = (e?.target as HTMLInputElement)?.value;
+  };
+
+  const handleContentPaste = async (e: ClipboardEvent) => {
+    if (e?.clipboardData?.items) {
+      const items = e.clipboardData.items;
+      for (const item of items) {
+        if (item.kind === "file" && item.type.indexOf("image") > -1) {
+          const blob = item.getAsFile();
+
+          if (blob) {
+            const imageId = ulid();
+
+            const applicationService = new ApplicationAccessTokenService({
+              clientId: Deno.env.get("FLEEK_API_KEY") || "",
+            });
+
+            const fleekSdk = new FleekSdk({
+              accessTokenService: applicationService,
+            });
+
+            const result = await fleekSdk.storage().uploadFile({
+              file: blob,
+              onUploadProgress: (progress) => {
+                console.error(progress);
+              },
+            });
+
+            console.error(result.pin);
+
+            const imageUrl = `https://cf-ipfs.com/ipfs/${result.pin.cid}`;
+
+            await fetch(`/api/images`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                url: imageUrl,
+                name: blob.name,
+                type: blob.type,
+                id: imageId,
+                postId: props.post?.id,
+              }),
+            });
+
+            const imageTag = `<img alt="${blob.name}" src="${imageUrl}">`;
+            setTextAreaHelper(imageTag, imageTag.length);
+          }
+        }
+      }
+    }
+    content.value = (e?.target as HTMLInputElement)?.value;
+  };
+
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: DragEvent) => {
+    e.preventDefault();
+
+    if (e.dataTransfer) {
+      const file = e.dataTransfer.files[0];
+
+      console.error(file);
+    }
   };
 
   const setTextAreaHelper = (newText: string, newCursorPosition: number) => {
@@ -235,9 +307,12 @@ export function PostEditor(props: { post?: Post }) {
                   <textarea
                     class="block w-full grow rounded-md border-0 py-1.5 text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:ring-0 focus:outline-2 focus:outline-gray-900 sm:text-sm sm:leading-6 resize-none scroll-smooth"
                     placeholder="Put your post in some awesome markdown here!"
-                    onKeyPress={handleMarkdownChange}
-                    onPaste={handleMarkdownChange}
-                    onInput={handleMarkdownChange}
+                    onKeyPress={handleContentKeyPress}
+                    onPaste={handleContentPaste}
+                    onInput={handleContentInput}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    // clipboard-accept="text/plain"
                     ref={textareaRef}
                   >
                     {value}
