@@ -2,6 +2,7 @@ import { User } from "@/utils/db.ts";
 import { Avatar } from "@/components/Avatar.tsx";
 import { Button } from "@/islands/Button.tsx";
 import IconPlus from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/plus.tsx";
+import IconBrandGithubFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github-filled.tsx";
 
 export interface HeaderProps {
   sessionUser?: User;
@@ -79,6 +80,12 @@ export function Header(props: HeaderProps) {
                             </div>
                           )
                           : null}
+                        <div class="flex items-center justify-center text-gray-400 font-semibold">
+                          <IconBrandGithubFilled class="h-4 w-4 mr-1" />
+                          <div>
+                            {props.sessionUser.login}
+                          </div>
+                        </div>
                       </li>
                       {props.sessionUser && props.sessionUser.role === "admin"
                         ? (
@@ -89,10 +96,6 @@ export function Header(props: HeaderProps) {
                               type="anchor"
                             >
                               Posts
-                              {/* <div class="flex justify-between"> */}
-                              {/* <div class="">Posts</div> */}
-                              {/* <IconPlus class="w-4 h-4" /> */}
-                              {/* </div> */}
                             </Button>
                             <Button
                               href={`/posts/new`}
