@@ -77,10 +77,22 @@ export function Header(props: HeaderProps) {
                       class="py-2 text-sm text-gray-700 dark:text-gray-200"
                       aria-labelledby="dropdownDefaultButton"
                     >
+                      {props.sessionUser && props.sessionUser.role === "admin"
+                        ? (
+                          <li>
+                            <Button
+                              href={`/user/${props.sessionUser.login}/posts`}
+                              htmlClass="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              type="anchor"
+                            >
+                              My posts
+                            </Button>
+                          </li>
+                        )
+                        : null}
                       <li>
                         <Button
                           href="/signout?success_url=/"
-                          // style="secondary"
                           htmlClass="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                           type="anchor"
                         >
