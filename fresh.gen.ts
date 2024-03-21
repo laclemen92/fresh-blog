@@ -7,6 +7,7 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_images from "./routes/api/images.ts";
 import * as $api_posts from "./routes/api/posts.ts";
 import * as $api_users from "./routes/api/users.ts";
+import * as $api_votes from "./routes/api/votes.ts";
 import * as $index from "./routes/index.tsx";
 import * as $notes_new from "./routes/notes/new.tsx";
 import * as $posts_slug_ from "./routes/posts/[slug].tsx";
@@ -28,6 +29,7 @@ const manifest = {
     "./routes/api/images.ts": $api_images,
     "./routes/api/posts.ts": $api_posts,
     "./routes/api/users.ts": $api_users,
+    "./routes/api/votes.ts": $api_votes,
     "./routes/index.tsx": $index,
     "./routes/notes/new.tsx": $notes_new,
     "./routes/posts/[slug].tsx": $posts_slug_,
