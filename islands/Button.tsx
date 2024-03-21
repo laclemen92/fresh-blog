@@ -13,6 +13,7 @@ export interface ButtonProps {
   tooltipId?: string;
   dataDropdownToggle?: string;
   dataDropdownPlacement?: string;
+  disabled?: boolean;
 }
 
 export function Button(props: ButtonProps) {
@@ -63,6 +64,7 @@ export function Button(props: ButtonProps) {
       <a
         href={props.href}
         class={`${classes.join(" ") || ""}`}
+        disabled={props.disabled}
       >
         {props.children}
       </a>
@@ -84,6 +86,7 @@ export function Button(props: ButtonProps) {
         <button
           class={`${classes.join(" ") || ""}`}
           onClick={props.onClick}
+          disabled={props.disabled}
         >
           {props.children}
         </button>
@@ -105,6 +108,7 @@ export function Button(props: ButtonProps) {
         onClick={props.onClick}
         data-dropdown-toggle={props.dataDropdownToggle || ""}
         data-dropdown-placement={props.dataDropdownPlacement || ""}
+        disabled={props.disabled}
       >
         {props.children}
       </button>
