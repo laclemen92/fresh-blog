@@ -191,3 +191,37 @@ export async function getImage(id: string) {
   const res = await kv.get<Image>(["images", id]);
   return res.value;
 }
+
+export interface Vote {
+  postId: string;
+  userLogin: string;
+}
+
+export async function createVote(vote: Vote) {
+  const res = await kv.set(["votes", vote.postId, vote.userLogin], vote);
+  if (!res.ok) throw new Error("Failed to create vote");
+}
+
+// can see if I vogted for a post, pass the postid and my userLogin. If I voted, return the vote, if not, return null
+export async function getVote(postId: string, userLogin: string) {
+  const res = await kv.get<Vote>(["votes", postId, userLogin]);
+  return res.value;
+}
+
+// maybe don't need, use deleteVote instead for unvoting
+export async function updateVote(vote: Vote) {
+  const res = await kv.set(["votes", vote.postId, vote.userLogin], vote);
+  if (!res.ok) throw new Error("Failed to update vote");
+}
+
+export async function deleteVote(postId: string, userLogin: string) {
+  await kv.delete(["votes", postId, userLogin]);
+}
+
+export async function countVotesByPost(postId: string) {
+  const votesList = await kv.list<Vote>({ prefix: ["votes", postId] });
+  const votes = [];
+  for await (const vote of votesList) votes.push(vote);
+
+  return votes.length;
+}
