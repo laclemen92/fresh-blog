@@ -65,7 +65,7 @@ export function Header(props: HeaderProps) {
                       class="py-2 text-sm text-gray-700 divide-y divide-slate-200"
                       aria-labelledby="dropdownDefaultButton"
                     >
-                      <li class="flex flex-col">
+                      <li class="flex flex-col mb-4">
                         <div class="flex items-center justify-center">
                           <Avatar
                             login={props?.sessionUser?.login || null}
