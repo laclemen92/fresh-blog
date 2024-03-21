@@ -59,10 +59,10 @@ export function Header(props: HeaderProps) {
                   </Button>
                   <div
                     id="header-menu-dropdown"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 bg-white border border-gray-300/70 rounded-lg shadow-xl shadow-gray-400/20 w-44 dark:bg-gray-700"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 bg-white border border-gray-300/70 rounded-lg shadow-xl shadow-gray-400/20 w-44"
                   >
                     <ul
-                      class="py-2 text-sm text-gray-700 dark:text-gray-200 divide-y divide-slate-200"
+                      class="py-2 text-sm text-gray-700 divide-y divide-slate-200"
                       aria-labelledby="dropdownDefaultButton"
                     >
                       <li class="flex flex-col">
@@ -89,7 +89,7 @@ export function Header(props: HeaderProps) {
                       </li>
                       {props.sessionUser && props.sessionUser.role === "admin"
                         ? (
-                          <li class="flex justify-between hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                          <li class="flex justify-between hover:bg-gray-100">
                             <Button
                               href={`/user/${props.sessionUser.login}/posts`}
                               htmlClass="flex flex-1 block px-4 py-2 text-base"
@@ -108,7 +108,7 @@ export function Header(props: HeaderProps) {
                         )
                         : null}
                       {
-                        /* <li class="flex justify-between hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        /* <li class="flex justify-between hover:bg-gray-100">
                         <Button
                           href={`/notes`}
                           htmlClass="flex flex-1 block px-4 py-2 text-base"
@@ -128,7 +128,7 @@ export function Header(props: HeaderProps) {
                       <li>
                         <Button
                           href="/signout?success_url=/"
-                          htmlClass="block px-4 py-2 text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          htmlClass="block px-4 py-2 text-base hover:bg-gray-100"
                           type="anchor"
                         >
                           Sign out
