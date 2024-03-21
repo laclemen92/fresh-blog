@@ -31,10 +31,10 @@ export function Button(props: ButtonProps) {
       hover: "hover:bg-gray-50",
     },
     danger: {
-      background: "bg-red-500",
+      background: "bg-red-700",
       text: "text-white",
-      ring: "ring-red-500",
-      hover: "hover:bg-red-400",
+      ring: "ring-red-700",
+      hover: "hover:bg-red-500 hover:ring-red-500",
     },
   };
 

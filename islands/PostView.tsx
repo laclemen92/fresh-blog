@@ -84,7 +84,7 @@ export default function PostView(props: {
           )
           : null}
         <Button
-          style="primary"
+          style="secondary"
           type="button"
           htmlClass="float-right rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
           onClick={onClickVote}
