@@ -5,6 +5,7 @@ import { useSignal } from "@preact/signals";
 import { PostEditor } from "@/islands/PostEditor.tsx";
 import type { Post, User } from "@/utils/db.ts";
 import IconHeart from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart.tsx";
+import IconHeartFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart-filled.tsx";
 
 export default function PostView(props: {
   data: {
@@ -91,7 +92,9 @@ export default function PostView(props: {
         >
           <div class="flex items-center justify-between gap-2">
             {voteCountSignal.value}
-            <IconHeart class="w-5 h-5" />
+            {didVote.value
+              ? <IconHeartFilled class="w-5 h-5 text-red-700" />
+              : <IconHeart class="w-5 h-5" />}
           </div>
         </Button>
       </div>
