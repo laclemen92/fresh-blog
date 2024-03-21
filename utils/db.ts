@@ -47,7 +47,6 @@ export async function createPost(post: Post) {
     .set(postsUserKey, post)
     .commit();
 
-  console.error(res);
   if (!res.ok) throw new Error("Failed to create post");
 }
 
@@ -198,7 +197,16 @@ export interface Vote {
 }
 
 export async function createVote(vote: Vote) {
-  const res = await kv.set(["votes", vote.postId, vote.userLogin], vote);
+  const votesKey = ["votes", vote.postId, vote.userLogin];
+  const userVotesKey = ["user", vote.userLogin, "votes", vote.postId];
+
+  const res = await kv.atomic()
+    .check({ key: votesKey, versionstamp: null })
+    .check({ key: userVotesKey, versionstamp: null })
+    .set(votesKey, vote)
+    .set(userVotesKey, vote.postId)
+    .commit();
+
   if (!res.ok) throw new Error("Failed to create vote");
 }
 
@@ -208,14 +216,23 @@ export async function getVote(postId: string, userLogin: string) {
   return res.value;
 }
 
-// maybe don't need, use deleteVote instead for unvoting
-export async function updateVote(vote: Vote) {
-  const res = await kv.set(["votes", vote.postId, vote.userLogin], vote);
-  if (!res.ok) throw new Error("Failed to update vote");
+export async function listVotedPostsForUser(
+  userLogin: string,
+  options?: Deno.KvListOptions,
+) {
+  return await kv.list<string>(
+    { prefix: ["user", userLogin, "votes"] },
+    options,
+  );
 }
 
 export async function deleteVote(postId: string, userLogin: string) {
-  await kv.delete(["votes", postId, userLogin]);
+  const votesKey = ["votes", postId, userLogin];
+  const userVotesKey = ["user", userLogin, "votes", postId];
+
+  await kv.delete(votesKey);
+  await kv.delete(userVotesKey);
+  return;
 }
 
 export async function countVotesByPost(postId: string) {

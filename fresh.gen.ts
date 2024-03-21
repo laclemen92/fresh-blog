@@ -12,6 +12,7 @@ import * as $index from "./routes/index.tsx";
 import * as $notes_new from "./routes/notes/new.tsx";
 import * as $posts_slug_ from "./routes/posts/[slug].tsx";
 import * as $posts_edit_slug_ from "./routes/posts/edit/[slug].tsx";
+import * as $posts_favorites from "./routes/posts/favorites.tsx";
 import * as $posts_index from "./routes/posts/index.tsx";
 import * as $posts_new from "./routes/posts/new.tsx";
 import * as $user_userLogin_posts from "./routes/user/[userLogin]/posts.tsx";
@@ -34,6 +35,7 @@ const manifest = {
     "./routes/notes/new.tsx": $notes_new,
     "./routes/posts/[slug].tsx": $posts_slug_,
     "./routes/posts/edit/[slug].tsx": $posts_edit_slug_,
+    "./routes/posts/favorites.tsx": $posts_favorites,
     "./routes/posts/index.tsx": $posts_index,
     "./routes/posts/new.tsx": $posts_new,
     "./routes/user/[userLogin]/posts.tsx": $user_userLogin_posts,

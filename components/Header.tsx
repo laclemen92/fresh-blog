@@ -127,6 +127,15 @@ export function Header(props: HeaderProps) {
                       }
                       <li>
                         <Button
+                          href="/posts/favorites"
+                          type="anchor"
+                          htmlClass="block px-4 py-2 text-base hover:bg-gray-100"
+                        >
+                          Favorites
+                        </Button>
+                      </li>
+                      <li>
+                        <Button
                           href="/signout?success_url=/"
                           htmlClass="block px-4 py-2 text-base hover:bg-gray-100"
                           type="anchor"
