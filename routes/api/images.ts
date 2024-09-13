@@ -30,7 +30,7 @@ export const handler: Handlers<undefined, SignedInState> = {
       },
     });
 
-    const imageUrl = `https://cf-ipfs.com/ipfs/${result.pin.cid}`;
+    const imageUrl = `https://${result.pin.cid}.ipfs.flk-ipfs.xyz`;
     const image = {
       id: ulid(),
       type: blob.type,
