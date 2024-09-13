@@ -33,6 +33,7 @@ export const handler: Handlers<undefined, SignedInState> = {
     const imageUrl = `https://${result.pin.cid}.ipfs.flk-ipfs.xyz`;
     const image = {
       id: ulid(),
+      cid: result.pin.cid,
       type: blob.type,
       name: blob.name,
       url: imageUrl,
