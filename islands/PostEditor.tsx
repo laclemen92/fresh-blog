@@ -79,7 +79,8 @@ export function PostEditor(props: { post?: Post }) {
             });
             const data = await response.json();
 
-            const imageTag = `<img alt="${file.name}" src="${data.imageUrl}">`;
+            const imageTag =
+              `<img alt="${file.name}" src="${data.imageUrl}"></img>`;
             setTextAreaHelper(imageTag, imageTag.length);
           }
         }
