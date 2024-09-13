@@ -101,6 +101,7 @@ export interface User {
   sessionId: string;
   role: UserRoles;
   name?: string;
+  authConfig: "github" | "google";
 }
 
 /** For testing */
@@ -109,6 +110,7 @@ export function randomUser(): User {
     login: crypto.randomUUID(),
     sessionId: crypto.randomUUID(),
     role: "user",
+    authConfig: "github",
   };
 }
 

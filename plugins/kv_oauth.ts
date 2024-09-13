@@ -1,7 +1,7 @@
 // Copyright 2023-2024 the Deno authors. All rights reserved. MIT license.
 import type { Plugin } from "$fresh/server.ts";
 import {
-  createGitHubOAuthConfig,
+  // createGitHubOAuthConfig,
   handleCallback,
   signIn,
   signOut,
@@ -12,7 +12,8 @@ import {
   updateUserSession,
   type User,
 } from "@/utils/db.ts";
-import { getGitHubUser } from "@/utils/github.ts";
+// import { getGitHubUser } from "@/utils/github.ts";
+import { getGoogleUser, googleOAuthConfig } from "@/utils/google.ts";
 
 // Exported for mocking and spying in e2e tests
 export const _internals = { handleCallback };
@@ -30,31 +31,35 @@ export default {
   routes: [
     {
       path: "/signin",
-      handler: async (req) => await signIn(req, createGitHubOAuthConfig()),
+      // handler: async (req) => await signIn(req, createGitHubOAuthConfig()),
+      handler: async (req) => await signIn(req, googleOAuthConfig),
     },
     {
       path: "/callback",
       handler: async (req) => {
         const { response, tokens, sessionId } = await _internals.handleCallback(
           req,
-          createGitHubOAuthConfig(),
+          googleOAuthConfig,
         );
 
-        const githubUser = await getGitHubUser(tokens.accessToken);
-        const user = await getUser(githubUser.login);
+        const googleUser = await getGoogleUser(tokens.accessToken);
+
+        // const githubUser = await getGitHubUser(tokens.accessToken);
+        const user = await getUser(googleUser.email);
 
         if (user === null) {
           const user: User = {
-            login: githubUser.login,
+            login: googleUser.email,
+            authConfig: "google",
             sessionId,
             role: "user",
-            name: githubUser.name,
+            name: googleUser.name,
           };
 
           await createUser(user);
         } else {
-          if (githubUser.name) {
-            user.name = githubUser.name;
+          if (googleUser.name) {
+            user.name = googleUser.name;
           }
           await updateUserSession(user, sessionId);
         }

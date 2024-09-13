@@ -53,7 +53,11 @@ export function Header(props: HeaderProps) {
                     dataDropdownPlacement="bottom-end"
                   >
                     <Avatar
-                      login={props?.sessionUser?.login || null}
+                      login={(props?.sessionUser?.login &&
+                          (props?.sessionUser?.authConfig === "github" ||
+                            !props?.sessionUser?.authConfig))
+                        ? props?.sessionUser?.login
+                        : null}
                       size={32}
                     />
                   </Button>
@@ -81,7 +85,10 @@ export function Header(props: HeaderProps) {
                           )
                           : null}
                         <div class="flex items-center justify-center text-gray-400 font-semibold">
-                          <IconBrandGithubFilled class="h-4 w-4 mr-1" />
+                          {!props.sessionUser.authConfig ||
+                              props.sessionUser.authConfig === "github"
+                            ? <IconBrandGithubFilled class="h-4 w-4 mr-1" />
+                            : null}
                           <div>
                             {props.sessionUser.login}
                           </div>
