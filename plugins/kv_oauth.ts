@@ -1,7 +1,7 @@
 // Copyright 2023-2024 the Deno authors. All rights reserved. MIT license.
 import type { Plugin } from "$fresh/server.ts";
 import {
-  // createGitHubOAuthConfig,
+  createGitHubOAuthConfig,
   handleCallback,
   signIn,
   signOut,
@@ -12,7 +12,7 @@ import {
   updateUserSession,
   type User,
 } from "@/utils/db.ts";
-// import { getGitHubUser } from "@/utils/github.ts";
+import { getGitHubUser } from "@/utils/github.ts";
 import { getGoogleUser, googleOAuthConfig } from "@/utils/google.ts";
 
 // Exported for mocking and spying in e2e tests
@@ -30,12 +30,15 @@ export default {
   name: "kv-oauth",
   routes: [
     {
-      path: "/signin",
-      // handler: async (req) => await signIn(req, createGitHubOAuthConfig()),
+      path: "/signin/google",
       handler: async (req) => await signIn(req, googleOAuthConfig),
     },
     {
-      path: "/callback",
+      path: "/signin/github",
+      handler: async (req) => await signIn(req, createGitHubOAuthConfig()),
+    },
+    {
+      path: "/callback/google",
       handler: async (req) => {
         const { response, tokens, sessionId } = await _internals.handleCallback(
           req,
@@ -43,8 +46,6 @@ export default {
         );
 
         const googleUser = await getGoogleUser(tokens.accessToken);
-
-        // const githubUser = await getGitHubUser(tokens.accessToken);
         const user = await getUser(googleUser.email);
 
         if (user === null) {
@@ -54,12 +55,45 @@ export default {
             sessionId,
             role: "user",
             name: googleUser.name,
+            accessToken: tokens.accessToken,
           };
 
           await createUser(user);
         } else {
           if (googleUser.name) {
             user.name = googleUser.name;
+          }
+          await updateUserSession(user, sessionId);
+        }
+
+        return response;
+      },
+    },
+    {
+      path: "/callback/github",
+      handler: async (req) => {
+        const { response, tokens, sessionId } = await _internals.handleCallback(
+          req,
+          createGitHubOAuthConfig(),
+        );
+
+        const githubUser = await getGitHubUser(tokens.accessToken);
+        const user = await getUser(githubUser.login);
+
+        if (user === null) {
+          const user: User = {
+            login: githubUser.login,
+            authConfig: "github",
+            sessionId,
+            role: "user",
+            name: githubUser.name,
+            accessToken: tokens.accessToken,
+          };
+
+          await createUser(user);
+        } else {
+          if (githubUser.name) {
+            user.name = githubUser.name;
           }
           await updateUserSession(user, sessionId);
         }

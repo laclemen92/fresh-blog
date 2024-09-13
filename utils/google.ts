@@ -2,14 +2,18 @@
 import { createGoogleOAuthConfig } from "kv_oauth/mod.ts";
 import { BadRequestError } from "@/utils/http.ts";
 
+const scope = [
+  "https://www.googleapis.com/auth/userinfo.profile",
+  "https://www.googleapis.com/auth/userinfo.email",
+];
+
+const DEFAULT_CALLBACK = "http://localhost:8000/callback/google";
+
 export const googleOAuthConfig = createGoogleOAuthConfig({
   redirectUri: Deno.env.get(
     "GOOGLE_REDIRECT_URI",
-  ) || "http://localhost:8000/callback",
-  scope: [
-    "https://www.googleapis.com/auth/userinfo.profile",
-    "https://www.googleapis.com/auth/userinfo.email",
-  ],
+  ) || DEFAULT_CALLBACK,
+  scope,
 });
 
 export function isGoogleSetup() {
@@ -17,11 +21,8 @@ export function isGoogleSetup() {
     createGoogleOAuthConfig({
       redirectUri: Deno.env.get(
         "GOOGLE_REDIRECT_URI",
-      ) || "http://localhost:8000/callback",
-      scope: [
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email",
-      ],
+      ) || DEFAULT_CALLBACK,
+      scope,
     });
     return true;
   } catch {

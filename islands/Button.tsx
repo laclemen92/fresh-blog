@@ -86,6 +86,8 @@ export function Button(props: ButtonProps) {
         <button
           class={`${classes.join(" ") || ""}`}
           onClick={props.onClick}
+          data-dropdown-toggle={props.dataDropdownToggle || ""}
+          data-dropdown-placement={props.dataDropdownPlacement || ""}
           disabled={props.disabled}
         >
           {props.children}

@@ -10,9 +10,6 @@ export interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const toggleMenu = async (e: Event) => {
-  };
-
   return (
     <>
       {/* max-w-screen-xl - this made it have a lot of margin on sides */}
@@ -36,18 +33,47 @@ export function Header(props: HeaderProps) {
               ? (
                 <li>
                   <Button
-                    href="/signin"
                     style="secondary"
-                    type="anchor"
+                    type="button"
+                    dataDropdownToggle="header-login-options"
+                    dataDropdownPlacement="bottom-end"
+                    htmlClass="rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
                   >
                     Sign in
                   </Button>
+                  <div
+                    id="header-login-options"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 bg-white border border-gray-300/70 rounded-lg shadow-xl shadow-gray-400/20 w-72"
+                  >
+                    <ul
+                      class="py-2 text-sm text-gray-700 divide-y divide-slate-200"
+                      aria-labelledby="dropdownDefaultButton"
+                    >
+                      <li>
+                        <Button
+                          href="/signin/github"
+                          type="anchor"
+                          htmlClass="block px-4 py-2 text-base hover:bg-gray-100"
+                        >
+                          Github
+                        </Button>
+                      </li>
+                      <li>
+                        <Button
+                          href="/signin/google"
+                          type="anchor"
+                          htmlClass="block px-4 py-2 text-base hover:bg-gray-100"
+                        >
+                          Google
+                        </Button>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
               )
               : (
                 <li class="relative">
                   <Button
-                    onClick={toggleMenu}
                     type="avatar"
                     dataDropdownToggle="header-menu-dropdown"
                     dataDropdownPlacement="bottom-end"
@@ -72,7 +98,11 @@ export function Header(props: HeaderProps) {
                       <li class="flex flex-col mb-4">
                         <div class="flex items-center justify-center">
                           <Avatar
-                            login={props?.sessionUser?.login || null}
+                            login={(props?.sessionUser?.login &&
+                                (props?.sessionUser?.authConfig === "github" ||
+                                  !props?.sessionUser?.authConfig))
+                              ? props?.sessionUser?.login
+                              : null}
                             size={96}
                             class="mx-4 my-2"
                           />
@@ -114,24 +144,6 @@ export function Header(props: HeaderProps) {
                           </li>
                         )
                         : null}
-                      {
-                        /* <li class="flex justify-between hover:bg-gray-100">
-                        <Button
-                          href={`/notes`}
-                          htmlClass="flex flex-1 block px-4 py-2 text-base"
-                          type="anchor"
-                        >
-                          Notes
-                        </Button>
-                        <Button
-                          href={`/notes/new`}
-                          htmlClass="block px-4 py-2 text-gray-400 hover:text-gray-900"
-                          type="anchor"
-                        >
-                          <IconPlus class="w-5 h-5" />
-                        </Button>
-                      </li> */
-                      }
                       <li>
                         <Button
                           href="/posts/favorites"
