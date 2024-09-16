@@ -77,8 +77,15 @@ export async function updatePost(id: string, post: Post) {
 export async function deletePost(id: string) {
   const post = await getPost(id);
   if (post === null) return;
-  post.deleted = true;
-  await updatePost(id, post);
+
+  const postsKey = ["posts", id];
+  const postsBySlugKey = ["posts_by_slug", post.slug];
+  const postsUserKey = ["user", post.userLogin, "posts", post.id];
+
+  await kv.delete(postsKey);
+  await kv.delete(postsBySlugKey);
+  await kv.delete(postsUserKey);
+  return;
 }
 
 export function listPosts(options?: Deno.KvListOptions) {
