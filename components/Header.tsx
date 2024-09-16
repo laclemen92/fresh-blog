@@ -3,6 +3,7 @@ import { Avatar } from "@/components/Avatar.tsx";
 import { Button } from "@/islands/Button.tsx";
 import IconPlus from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/plus.tsx";
 import IconBrandGithubFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/brand-github-filled.tsx";
+import IconBrandGoogleFilled from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/brand-google-filled.tsx";
 
 export interface HeaderProps {
   sessionUser?: User;
@@ -23,7 +24,7 @@ export function Header(props: HeaderProps) {
             />
           </a>
           <a href="/" class="flex mr-3 items-center">
-            <h1 class="text-xl">Welcome to da Blog</h1>
+            <h1 class="text-2xl font-semibold">Luke Clement's Blog</h1>
           </a>
         </div>
         <nav class="flex">
@@ -48,22 +49,21 @@ export function Header(props: HeaderProps) {
                       class="py-2 text-sm text-gray-700 divide-y divide-slate-200"
                       aria-labelledby="dropdownDefaultButton"
                     >
-                      <li>
+                      <li class="flex justify-center">
                         <Button
-                          href="/signin/github"
+                          href={`/signin/google`}
+                          htmlClass="flex block px-4 py-2 text-gray-400 hover:text-gray-900"
                           type="anchor"
-                          htmlClass="block px-4 py-2 text-base hover:bg-gray-100"
                         >
-                          Github
+                          <IconBrandGoogleFilled class="w-6 h-6" />
                         </Button>
-                      </li>
-                      <li>
+                        <div class="flex py-2">- OR -</div>
                         <Button
-                          href="/signin/google"
+                          href={`/signin/github`}
+                          htmlClass="block px-4 py-2 text-gray-400 hover:text-gray-900"
                           type="anchor"
-                          htmlClass="block px-4 py-2 text-base hover:bg-gray-100"
                         >
-                          Google
+                          <IconBrandGithubFilled class="w-6 h-6" />
                         </Button>
                       </li>
                     </ul>
