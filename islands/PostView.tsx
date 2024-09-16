@@ -7,6 +7,12 @@ import type { Post, User } from "@/utils/db.ts";
 import IconHeart from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart.tsx";
 import IconHeartFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart-filled.tsx";
 
+const formatPostDate = (postDate: Date) => {
+  return `${
+    postDate.getMonth() + 1
+  }/${postDate.getDate()}/${postDate.getFullYear()}`;
+};
+
 export default function PostView(props: {
   data: {
     post: Post;
@@ -104,7 +110,13 @@ export default function PostView(props: {
           class="markdown-body"
           dangerouslySetInnerHTML={{
             __html: render(
-              "# ".concat(post.title).concat("\n\n").concat(post.content),
+              "# ".concat(post.title).concat(
+                `${
+                  post?.createdAt
+                    ? "\n###### Created on " + formatPostDate(post.createdAt)
+                    : ""
+                }`,
+              ).concat("\n\n").concat(post.content),
             ),
           }}
         />

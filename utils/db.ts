@@ -19,6 +19,8 @@ export interface Post {
   slug: string;
   content: string;
   deleted?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 /** For testing */
@@ -34,6 +36,7 @@ export function randomPost(): Post {
 }
 
 export async function createPost(post: Post) {
+  post.createdAt = new Date();
   const postsKey = ["posts", post.id];
   const postsBySlugKey = ["posts_by_slug", post.slug];
   const postsUserKey = ["user", post.userLogin, "posts", post.id];
@@ -61,6 +64,7 @@ export async function getPostBySlug(slug: string) {
 }
 
 export async function updatePost(id: string, post: Post) {
+  post.updatedAt = new Date();
   const postsKey = ["posts", id];
   const postsBySlugKey = ["posts_by_slug", post.slug];
   const postsUserKey = ["user", post.userLogin, "posts", post.id];
@@ -110,6 +114,8 @@ export interface User {
   name?: string;
   authConfig: "github" | "google";
   accessToken: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 /** For testing */
@@ -124,6 +130,7 @@ export function randomUser(): User {
 }
 
 export async function createUser(user: User) {
+  user.createdAt = new Date();
   const usersKey = ["users", user.login];
   const usersBySessionKey = ["users_by_session", user.sessionId];
 
@@ -138,6 +145,7 @@ export async function createUser(user: User) {
 }
 
 export async function updateUser(user: User) {
+  user.updatedAt = new Date();
   const usersKey = ["users", user.login];
   const usersBySessionKey = ["users_by_session", user.sessionId];
 
@@ -190,9 +198,12 @@ export interface Image {
   type: string;
   name: string;
   url: string;
+  cid?: string;
+  createdAt?: Date;
 }
 
 export async function createImage(image: Image) {
+  image.createdAt = new Date();
   const res = await kv.set(["images", image.id], image);
   if (!res.ok) throw new Error("Failed to create image");
 }
@@ -205,9 +216,11 @@ export async function getImage(id: string) {
 export interface Vote {
   postId: string;
   userLogin: string;
+  createdAt?: Date;
 }
 
 export async function createVote(vote: Vote) {
+  vote.createdAt = new Date();
   const votesKey = ["votes", vote.postId, vote.userLogin];
   const userVotesKey = ["user", vote.userLogin, "votes", vote.postId];
 

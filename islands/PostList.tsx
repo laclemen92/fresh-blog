@@ -1,6 +1,12 @@
 import { Post } from "@/utils/db.ts";
 import IconUserCircle from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/user-circle.tsx";
 
+const formatPostDate = (postDate: Date) => {
+  return `${
+    postDate.getMonth() + 1
+  }/${postDate.getDate()}/${postDate.getFullYear()}`;
+};
+
 export default function PostList(
   props: { posts: Deno.KvEntry<Post>[] | Post[] | undefined },
 ) {
@@ -28,6 +34,15 @@ export default function PostList(
                   <h3 class="text-lg font-medium leading-6 text-gray-900">
                     {("value" in post) ? post.value.title : post.title}
                   </h3>
+                  <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    {("value" in post)
+                      ? (post.value?.createdAt
+                        ? formatPostDate(post.value.createdAt)
+                        : null)
+                      : (post?.createdAt
+                        ? formatPostDate(post.createdAt)
+                        : null)}
+                  </p>
                   <p class="mt-1 max-w-2xl text-sm text-gray-500">
                     <IconUserCircle class="h-4 w-4 mr-1 inline" />
                     {("value" in post) ? post.value.userLogin : post.userLogin}
