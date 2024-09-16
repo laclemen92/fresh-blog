@@ -16,11 +16,10 @@ export function Header(props: HeaderProps) {
       <header class="flex flex-row gap-3 items-center justify-between">
         <div class="p-4 flex items-center">
           <a href="/" class="flex mr-3 items-center">
-            <img
-              height={40}
-              width={40}
-              src="/logo.svg"
-              alt="the Fresh logo: a sliced lemon dripping with juice"
+            <Avatar
+              src="/favicon.ico"
+              alt="my face"
+              size={40}
             />
           </a>
           <a href="/" class="flex mr-3 items-center">
