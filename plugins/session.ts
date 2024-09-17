@@ -2,8 +2,8 @@
 import { Plugin } from "$fresh/server.ts";
 import type { FreshContext } from "$fresh/server.ts";
 import { getSessionId } from "kv_oauth/mod.ts";
-import { getUserBySession } from "@/utils/db.ts";
-import type { User } from "@/utils/db.ts";
+import { UserService } from "@/services/UserService.ts";
+import type { User } from "@/models/User.ts";
 import { UnauthorizedError } from "@/utils/http.ts";
 
 export interface State {
@@ -31,7 +31,8 @@ async function setSessionState(
 
   const sessionId = getSessionId(req);
   if (sessionId === undefined) return await ctx.next();
-  const user = await getUserBySession(sessionId);
+  const userService = new UserService();
+  const user = await userService.getUserBySession(sessionId);
   if (user === null) return await ctx.next();
 
   ctx.state.sessionUser = user;

@@ -1,4 +1,4 @@
-import { User } from "@/utils/db.ts";
+import { User, UserAuthConfigs, UserRoles } from "@/models/User.ts";
 import { Avatar } from "@/components/Avatar.tsx";
 import { Button } from "@/islands/Button.tsx";
 import IconPlus from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/plus.tsx";
@@ -79,7 +79,8 @@ export function Header(props: HeaderProps) {
                   >
                     <Avatar
                       login={(props?.sessionUser?.login &&
-                          (props?.sessionUser?.authConfig === "github" ||
+                          (props?.sessionUser?.authConfig ===
+                              UserAuthConfigs.GITHUB ||
                             !props?.sessionUser?.authConfig))
                         ? props?.sessionUser?.login
                         : null}
@@ -98,7 +99,8 @@ export function Header(props: HeaderProps) {
                         <div class="flex items-center justify-center">
                           <Avatar
                             login={(props?.sessionUser?.login &&
-                                (props?.sessionUser?.authConfig === "github" ||
+                                (props?.sessionUser?.authConfig ===
+                                    UserAuthConfigs.GITHUB ||
                                   !props?.sessionUser?.authConfig))
                               ? props?.sessionUser?.login
                               : null}
@@ -115,7 +117,8 @@ export function Header(props: HeaderProps) {
                           : null}
                         <div class="flex items-center justify-center text-gray-400 font-semibold">
                           {!props.sessionUser.authConfig ||
-                              props.sessionUser.authConfig === "github"
+                              props.sessionUser.authConfig ===
+                                UserAuthConfigs.GITHUB
                             ? <IconBrandGithubFilled class="h-4 w-4 mr-1" />
                             : null}
                           <div>
@@ -123,7 +126,8 @@ export function Header(props: HeaderProps) {
                           </div>
                         </div>
                       </li>
-                      {props.sessionUser && props.sessionUser.role === "admin"
+                      {props.sessionUser &&
+                          props.sessionUser.role === UserRoles.ADMIN
                         ? (
                           <li class="flex justify-between hover:bg-gray-100">
                             <Button

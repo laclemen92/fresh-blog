@@ -6,12 +6,8 @@ import {
   signIn,
   signOut,
 } from "kv_oauth/mod.ts";
-import {
-  createUser,
-  getUser,
-  updateUserSession,
-  type User,
-} from "@/utils/db.ts";
+import { UserService } from "@/services/UserService.ts";
+import { type User, UserAuthConfigs, UserRoles } from "@/models/User.ts";
 import { getGitHubUser } from "@/utils/github.ts";
 import { getGoogleUser, googleOAuthConfig } from "@/utils/google.ts";
 
@@ -46,24 +42,26 @@ export default {
         );
 
         const googleUser = await getGoogleUser(tokens.accessToken);
-        const user = await getUser(googleUser.email);
+
+        const userService = new UserService();
+        const user = await userService.getUser(googleUser.email);
 
         if (user === null) {
           const user: User = {
             login: googleUser.email,
-            authConfig: "google",
+            authConfig: UserAuthConfigs.GOOGLE,
             sessionId,
-            role: "user",
+            role: UserRoles.USER,
             name: googleUser.name,
             accessToken: tokens.accessToken,
           };
 
-          await createUser(user);
+          await userService.createUser(user);
         } else {
           if (googleUser.name) {
             user.name = googleUser.name;
           }
-          await updateUserSession(user, sessionId);
+          await userService.updateUserSession(user, sessionId);
         }
 
         return response;
@@ -78,24 +76,25 @@ export default {
         );
 
         const githubUser = await getGitHubUser(tokens.accessToken);
-        const user = await getUser(githubUser.login);
+        const userService = new UserService();
+        const user = await userService.getUser(githubUser.login);
 
         if (user === null) {
           const user: User = {
             login: githubUser.login,
-            authConfig: "github",
+            authConfig: UserAuthConfigs.GITHUB,
             sessionId,
-            role: "user",
+            role: UserRoles.USER,
             name: githubUser.name,
             accessToken: tokens.accessToken,
           };
 
-          await createUser(user);
+          await userService.createUser(user);
         } else {
           if (githubUser.name) {
             user.name = githubUser.name;
           }
-          await updateUserSession(user, sessionId);
+          await userService.updateUserSession(user, sessionId);
         }
 
         return response;

@@ -1,7 +1,7 @@
 import { type Handlers } from "$fresh/server.ts";
 import { STATUS_CODE } from "$std/http/status.ts";
 import type { SignedInState } from "@/plugins/session.ts";
-import { createImage } from "@/utils/db.ts";
+import { ImageService } from "@/services/ImageService.ts";
 import { BadRequestError } from "@/utils/http.ts";
 import { ulid } from "$std/ulid/mod.ts";
 import { FleekSdk, PersonalAccessTokenService } from "npm:@fleekxyz/sdk@1.3.3";
@@ -39,7 +39,8 @@ export const handler: Handlers<undefined, SignedInState> = {
       url: imageUrl,
     };
 
-    await createImage(image);
+    const imageService = new ImageService();
+    await imageService.createImage(image);
 
     return new Response(
       JSON.stringify({

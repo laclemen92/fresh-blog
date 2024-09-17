@@ -1,7 +1,6 @@
 import { type Handlers } from "$fresh/server.ts";
 import { STATUS_CODE } from "$std/http/status.ts";
-import { getUser, updateUser } from "@/utils/db.ts";
-import { BadRequestError } from "@/utils/http.ts";
+import { UserService } from "@/services/UserService.ts";
 
 export const handler: Handlers<undefined> = {
   async PUT(req, _ctx) {
@@ -14,14 +13,15 @@ export const handler: Handlers<undefined> = {
     }
 
     const login = body.login;
-    const user = await getUser(login);
+    const userService = new UserService();
+    const user = await userService.getUser(login);
 
     if (user) {
       if (body.role) {
         user.role = body.role;
       }
 
-      await updateUser(user);
+      await userService.updateUser(user);
       return new Response(null, { status: STATUS_CODE.OK });
     } else {
       return new Response(null, { status: STATUS_CODE.NotFound });

@@ -1,8 +1,7 @@
 import { type Handlers } from "$fresh/server.ts";
 import { STATUS_CODE } from "$std/http/status.ts";
 import type { SignedInState } from "@/plugins/session.ts";
-import { createVote, deleteVote, getVote } from "@/utils/db.ts";
-import { ulid } from "$std/ulid/mod.ts";
+import { VoteService } from "@/services/VoteService.ts";
 import { BadRequestError } from "@/utils/http.ts";
 
 export const handler: Handlers<undefined, SignedInState> = {
@@ -17,10 +16,11 @@ export const handler: Handlers<undefined, SignedInState> = {
       userLogin: ctx.state.sessionUser.login,
     };
 
-    if (await getVote(vote.postId, vote.userLogin)) {
-      await deleteVote(vote.postId, vote.userLogin);
+    const voteService = new VoteService();
+    if (await voteService.getVote(vote.postId, vote.userLogin)) {
+      await voteService.deleteVote(vote.postId, vote.userLogin);
     } else {
-      await createVote(vote);
+      await voteService.createVote(vote);
     }
 
     return new Response(null, { status: STATUS_CODE.OK });

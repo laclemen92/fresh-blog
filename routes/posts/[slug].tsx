@@ -1,10 +1,10 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { getPostBySlug, getVote } from "@/utils/db.ts";
+import { PostService } from "@/services/PostService.ts";
 import Error404 from "@/routes/_404.tsx";
 import type { SignedInState, State } from "@/plugins/session.ts";
-import type { Post } from "@/utils/db.ts";
+import type { Post } from "@/models/Post.ts";
 import PostView from "@/islands/PostView.tsx";
-import { countVotesByPost } from "@/utils/db.ts";
+import { VoteService } from "@/services/VoteService.ts";
 
 interface Page {
   post: Post;
@@ -15,13 +15,15 @@ interface Page {
 export const handler: Handlers<Page, SignedInState> = {
   async GET(_req, ctx) {
     const slug = ctx.params.slug;
-    const post = await getPostBySlug(slug);
+    const postService = new PostService();
+    const post = await postService.getPostBySlug(slug);
 
     if (post) {
-      const voteCount = await countVotesByPost(post.id);
+      const voteService = new VoteService();
+      const voteCount = await voteService.countVotesByPost(post.id);
       let voted = false;
       if (ctx.state.sessionUser?.login) {
-        voted = await getVote(post.id, ctx.state.sessionUser.login)
+        voted = await voteService.getVote(post.id, ctx.state.sessionUser.login)
           ? true
           : false;
       }

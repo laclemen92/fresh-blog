@@ -1,7 +1,7 @@
 import { type Handlers } from "$fresh/server.ts";
 import { STATUS_CODE } from "$std/http/status.ts";
 import type { SignedInState } from "@/plugins/session.ts";
-import { createPost, deletePost, getPost, updatePost } from "@/utils/db.ts";
+import { PostService } from "@/services/PostService.ts";
 import { ulid } from "$std/ulid/mod.ts";
 import { BadRequestError } from "@/utils/http.ts";
 
@@ -11,7 +11,8 @@ export const handler: Handlers<undefined, SignedInState> = {
     if (!body.slug) {
       throw new BadRequestError("Slug is required");
     }
-    await deletePost(body.id);
+    const postService = new PostService();
+    await postService.deletePost(body.id);
     return new Response(null, { status: STATUS_CODE.NoContent });
   },
 
@@ -39,10 +40,11 @@ export const handler: Handlers<undefined, SignedInState> = {
       content: body.content,
     };
 
-    if (body.id && await getPost(post.id)) {
-      await updatePost(post.id, post);
+    const postService = new PostService();
+    if (body.id && await postService.getPost(post.id)) {
+      await postService.updatePost(post.id, post);
     } else {
-      await createPost(post);
+      await postService.createPost(post);
     }
 
     return new Response(null, { status: STATUS_CODE.Created });

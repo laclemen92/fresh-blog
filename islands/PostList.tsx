@@ -1,4 +1,4 @@
-import { Post } from "@/utils/db.ts";
+import { Post } from "@/models/Post.ts";
 import IconUserCircle from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/user-circle.tsx";
 
 const formatPostDate = (postDate: Date) => {

@@ -1,6 +1,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
-import { listPosts, listPostsByUser, Post } from "@/utils/db.ts";
+import { Post } from "@/models/Post.ts";
+import { PostService } from "@/services/PostService.ts";
 import PostList from "@/islands/PostList.tsx";
 
 interface Props {
@@ -10,7 +11,8 @@ interface Props {
 export const handler: Handlers<Props> = {
   async GET(_req, ctx) {
     const login = ctx.params.userLogin;
-    const iter = await listPostsByUser(login, { reverse: true });
+    const postService = new PostService();
+    const iter = await postService.listPostsByUser(login, { reverse: true });
     const posts = [];
 
     for await (const res of iter) posts.push(res);

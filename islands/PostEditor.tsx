@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 import { useRef } from "preact/hooks";
-import { Post } from "@/utils/db.ts";
+import { Post } from "@/models/Post.ts";
 import { Button } from "@/islands/Button.tsx";
 import IconHeading from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heading.tsx";
 import IconBold from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/bold.tsx";

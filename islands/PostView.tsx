@@ -3,9 +3,11 @@ import { Head } from "$fresh/runtime.ts";
 import { Button } from "@/islands/Button.tsx";
 import { useSignal } from "@preact/signals";
 import { PostEditor } from "@/islands/PostEditor.tsx";
-import type { Post, User } from "@/utils/db.ts";
+import type { Post } from "@/models/Post.ts";
+import type { User } from "@/models/User.ts";
 import IconHeart from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart.tsx";
 import IconHeartFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart-filled.tsx";
+import { UserRoles } from "@/models/User.ts";
 
 const formatPostDate = (postDate: Date) => {
   return `${
@@ -52,7 +54,8 @@ export default function PostView(props: {
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
       </Head>
       <div class="flex flex-row-reverse gap-2">
-        {sessionUser?.login === post.userLogin && sessionUser?.role === "admin"
+        {sessionUser?.login === post.userLogin &&
+            sessionUser?.role === UserRoles.ADMIN
           ? (
             <Button
               onClick={(e) => {
@@ -67,7 +70,8 @@ export default function PostView(props: {
             </Button>
           )
           : null}
-        {sessionUser?.login === post.userLogin && sessionUser?.role === "admin"
+        {sessionUser?.login === post.userLogin &&
+            sessionUser?.role === UserRoles.ADMIN
           ? (
             <Button
               onClick={async (e) => {
