@@ -7,6 +7,12 @@ const formatPostDate = (postDate: Date) => {
   }/${postDate.getDate()}/${postDate.getFullYear()}`;
 };
 
+function isDenoPost(
+  post: Post | Deno.KvEntry<Post>,
+): post is Deno.KvEntry<Post> {
+  return (post as Deno.KvEntry<Post>).value !== undefined;
+}
+
 export default function PostList(
   props: { posts: Deno.KvEntry<Post>[] | Post[] | undefined },
 ) {
@@ -18,41 +24,35 @@ export default function PostList(
 
   return (
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-      {posts.map((post) => (
-        !(("value" in post) ? post.value.deleted : post.deleted)
+      {posts.map((post) => {
+        post = isDenoPost(post) ? post.value : post;
+
+        return (!post.deleted
           ? (
             <div
-              key={("value" in post) ? post.value.id : post.id}
+              key={post.id}
               class="border border-gray-300/70 hover:border-gray-900 hover:bg-gray-50 rounded-lg shadow-md shadow-gray-400/20 overflow-hidden"
             >
               <a
-                href={`/posts/${
-                  ("value" in post) ? post.value.slug : post.slug
-                }`}
+                href={`/posts/${post.slug}`}
               >
                 <div class="px-4 py-5 sm:px-6">
                   <h3 class="text-lg font-medium leading-6 text-gray-900">
-                    {("value" in post) ? post.value.title : post.title}
+                    {post.title}
                   </h3>
                   <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                    {("value" in post)
-                      ? (post.value?.createdAt
-                        ? formatPostDate(post.value.createdAt)
-                        : null)
-                      : (post?.createdAt
-                        ? formatPostDate(post.createdAt)
-                        : null)}
+                    {post?.createdAt ? formatPostDate(post.createdAt) : null}
                   </p>
                   <p class="mt-1 max-w-2xl text-sm text-gray-500">
                     <IconUserCircle class="h-4 w-4 mr-1 inline" />
-                    {("value" in post) ? post.value.userLogin : post.userLogin}
+                    {post.userLogin}
                   </p>
                 </div>
               </a>
             </div>
           )
-          : null
-      ))}
+          : null);
+      })}
     </div>
   );
 }
