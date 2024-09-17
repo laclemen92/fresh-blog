@@ -10,7 +10,6 @@ export const handler: Handlers<undefined> = {
     const token = headers.get("authorization");
 
     if (token !== `Bearer ${Deno.env.get("API_TOKEN")}`) {
-      console.error("token: ", token, "API_TOKEN: ", Deno.env.get("API_TOKEN"));
       return new Response(null, { status: STATUS_CODE.Unauthorized });
     }
 

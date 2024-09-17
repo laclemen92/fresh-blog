@@ -9,14 +9,12 @@ import * as $api_posts from "./routes/api/posts.ts";
 import * as $api_users from "./routes/api/users.ts";
 import * as $api_votes from "./routes/api/votes.ts";
 import * as $index from "./routes/index.tsx";
-import * as $notes_new from "./routes/notes/new.tsx";
 import * as $posts_slug_ from "./routes/posts/[slug].tsx";
 import * as $posts_edit_slug_ from "./routes/posts/edit/[slug].tsx";
 import * as $posts_favorites from "./routes/posts/favorites.tsx";
 import * as $posts_index from "./routes/posts/index.tsx";
 import * as $posts_new from "./routes/posts/new.tsx";
 import * as $user_userLogin_posts from "./routes/user/[userLogin]/posts.tsx";
-import * as $Banner from "./islands/Banner.tsx";
 import * as $Button from "./islands/Button.tsx";
 import * as $PostEditor from "./islands/PostEditor.tsx";
 import * as $PostList from "./islands/PostList.tsx";
@@ -32,7 +30,6 @@ const manifest = {
     "./routes/api/users.ts": $api_users,
     "./routes/api/votes.ts": $api_votes,
     "./routes/index.tsx": $index,
-    "./routes/notes/new.tsx": $notes_new,
     "./routes/posts/[slug].tsx": $posts_slug_,
     "./routes/posts/edit/[slug].tsx": $posts_edit_slug_,
     "./routes/posts/favorites.tsx": $posts_favorites,
@@ -41,7 +38,6 @@ const manifest = {
     "./routes/user/[userLogin]/posts.tsx": $user_userLogin_posts,
   },
   islands: {
-    "./islands/Banner.tsx": $Banner,
     "./islands/Button.tsx": $Button,
     "./islands/PostEditor.tsx": $PostEditor,
     "./islands/PostList.tsx": $PostList,

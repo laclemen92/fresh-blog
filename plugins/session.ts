@@ -76,13 +76,5 @@ export default {
       path: "/posts/edit/[slug]",
       middleware: { handler: ensureSignedIn },
     },
-    {
-      path: "/notes/new",
-      middleware: { handler: ensureSignedIn },
-    },
-    {
-      path: "/notes/edit/[slug]",
-      middleware: { handler: ensureSignedIn },
-    },
   ],
 } as Plugin<State>;
