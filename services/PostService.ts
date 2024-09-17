@@ -29,8 +29,8 @@ export class PostService {
       .check({ key: postsBySlugKey, versionstamp: null })
       .check({ key: postsUserKey, versionstamp: null })
       .set(postsKey, post)
-      .set(postsBySlugKey, post)
-      .set(postsUserKey, post)
+      .set(postsBySlugKey, post.id)
+      .set(postsUserKey, post.id)
       .commit();
 
     if (!res.ok) throw new Error("Failed to create post");
@@ -42,7 +42,12 @@ export class PostService {
   }
 
   async getPostBySlug(slug: string) {
-    const res = await kv.get<Post>(["posts_by_slug", slug]);
+    const { value: postId } = await kv.get<string>(["posts_by_slug", slug]);
+    if (!postId) {
+      return null;
+    }
+    const res = await kv.get<Post>(["posts", postId]);
+
     return res.value;
   }
 
@@ -54,8 +59,8 @@ export class PostService {
 
     const res = await kv.atomic()
       .set(postsKey, post)
-      .set(postsUserKey, post)
-      .set(postsBySlugKey, post)
+      .set(postsUserKey, post.id)
+      .set(postsBySlugKey, post.id)
       .commit();
 
     if (!res.ok) throw new Error("Failed to update post");

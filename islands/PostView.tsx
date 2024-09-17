@@ -10,6 +10,7 @@ import IconHeartFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/hear
 import { UserRoles } from "@/models/User.ts";
 
 const formatPostDate = (postDate: Date) => {
+  postDate = new Date(postDate);
   return `${
     postDate.getMonth() + 1
   }/${postDate.getDate()}/${postDate.getFullYear()}`;
@@ -116,7 +117,7 @@ export default function PostView(props: {
             __html: render(
               "# ".concat(post.title).concat(
                 `${
-                  post?.createdAt
+                  post && post?.createdAt
                     ? "\n###### Created on " + formatPostDate(post.createdAt)
                     : ""
                 }`,

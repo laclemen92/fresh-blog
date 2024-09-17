@@ -14,7 +14,7 @@ export const handler: Handlers<undefined> = {
 
     const login = body.login;
     const userService = new UserService();
-    const user = await userService.getUser(login);
+    const user = await userService.getUserByLogin(login);
 
     if (user) {
       if (body.role) {

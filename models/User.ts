@@ -11,6 +11,7 @@ export enum UserAuthConfigs {
 // User
 export interface User {
   // AKA username
+  id: string;
   login: string;
   sessionId: string;
   role: UserRoles;

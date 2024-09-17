@@ -44,10 +44,11 @@ export default {
         const googleUser = await getGoogleUser(tokens.accessToken);
 
         const userService = new UserService();
-        const user = await userService.getUser(googleUser.email);
+        const user = await userService.getUserByLogin(googleUser.email);
 
         if (user === null) {
           const user: User = {
+            id: "",
             login: googleUser.email,
             authConfig: UserAuthConfigs.GOOGLE,
             sessionId,
@@ -77,10 +78,11 @@ export default {
 
         const githubUser = await getGitHubUser(tokens.accessToken);
         const userService = new UserService();
-        const user = await userService.getUser(githubUser.login);
+        const user = await userService.getUserByLogin(githubUser.login);
 
         if (user === null) {
           const user: User = {
+            id: "",
             login: githubUser.login,
             authConfig: UserAuthConfigs.GITHUB,
             sessionId,

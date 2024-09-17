@@ -41,7 +41,9 @@ export default function PostList(
                     {post.title}
                   </h3>
                   <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                    {post?.createdAt ? formatPostDate(post.createdAt) : null}
+                    {post && post?.createdAt
+                      ? formatPostDate(post.createdAt)
+                      : null}
                   </p>
                   <p class="mt-1 max-w-2xl text-sm text-gray-500">
                     <IconUserCircle class="h-4 w-4 mr-1 inline" />
