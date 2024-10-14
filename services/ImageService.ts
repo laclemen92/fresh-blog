@@ -1,5 +1,6 @@
-import { Image } from "@/models/Image.ts";
+import { Image, imageEntity } from "@/models/Image.ts";
 import { kv } from "@/utils/db.ts";
+import { create, findUnique } from "@laclemen92/kvm";
 
 export class ImageService {
   constructor() {
@@ -7,12 +8,12 @@ export class ImageService {
 
   async createImage(image: Image) {
     image.createdAt = new Date();
-    const res = await kv.set(["images", image.id], image);
-    if (!res.ok) throw new Error("Failed to create image");
+    const result = await create<Image>(imageEntity, kv, image);
+    if (!result || !result?.value) throw new Error("Failed to create image");
   }
 
   async getImage(id: string) {
-    const res = await kv.get<Image>(["images", id]);
-    return res.value;
+    const result = await findUnique<Image>(imageEntity, kv, id);
+    return result?.value;
   }
 }

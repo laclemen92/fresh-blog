@@ -19,7 +19,7 @@ import * as $Button from "./islands/Button.tsx";
 import * as $PostEditor from "./islands/PostEditor.tsx";
 import * as $PostList from "./islands/PostList.tsx";
 import * as $PostView from "./islands/PostView.tsx";
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {

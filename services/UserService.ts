@@ -1,6 +1,8 @@
 import { User, UserAuthConfigs, UserRoles } from "@/models/User.ts";
 import { kv } from "@/utils/db.ts";
 import { ulid } from "$std/ulid/mod.ts";
+import { create, findMany, findUnique, update } from "@laclemen92/kvm";
+import { userEntity } from "@/models/User.ts";
 
 export class UserService {
   constructor() {
@@ -21,33 +23,21 @@ export class UserService {
   async createUser(user: User) {
     user.id = ulid();
     user.createdAt = new Date();
-    const usersKey = ["users", user.id];
-    const usersByLoginKey = ["users_by_login", user.login];
-    const usersBySessionKey = ["users_by_session", user.sessionId];
 
-    const atomicOp = kv.atomic()
-      .check({ key: usersKey, versionstamp: null })
-      .check({ key: usersBySessionKey, versionstamp: null })
-      .check({ key: usersByLoginKey, versionstamp: null })
-      .set(usersKey, user)
-      .set(usersBySessionKey, user.id)
-      .set(usersByLoginKey, user.id);
+    const result = await create<User>(userEntity, kv, user);
 
-    const res = await atomicOp.commit();
-    if (!res.ok) throw new Error("Failed to create user");
+    if (!result || !result?.value) throw new Error("Failed to create user");
   }
 
   async updateUser(user: User) {
     user.updatedAt = new Date();
-    const usersKey = ["users", user.id];
+    const updated = await update<User>(userEntity, kv, user.id, user);
 
-    const atomicOp = kv.atomic()
-      .set(usersKey, user);
-
-    const res = await atomicOp.commit();
-    if (!res.ok) throw new Error("Failed to update user");
+    if (!updated || !updated.value) throw new Error("Failed to update user");
   }
 
+  // this is slightly complicated...
+  // some things may just be manual
   async updateUserSession(user: User, sessionId: string) {
     const userKey = ["users", user.id];
     const oldUserBySessionKey = ["users_by_session", user.sessionId];
@@ -65,44 +55,35 @@ export class UserService {
   }
 
   async getUser(id: string) {
-    const res = await kv.get<User>(["users", id]);
-    return res.value;
+    const result = await findUnique<User>(userEntity, kv, id);
+    return result?.value;
   }
 
   async getUserByLogin(login: string) {
-    const { value: userId } = await kv.get<string>(["users_by_login", login]);
-    if (!userId) {
-      return null;
-    }
-    const user = await kv.get<User>(["users", userId]);
+    const user = await findUnique<User>(
+      userEntity,
+      kv,
+      login,
+      "users_by_login",
+      true,
+    );
 
-    return user.value;
+    return user?.value;
   }
 
   async getUserBySession(sessionId: string) {
-    const key = ["users_by_session", sessionId];
-    const eventualRes = await kv.get<User>(key, {
-      consistency: "eventual",
-    });
-    if (eventualRes.value !== null) {
-      const { value: userId } = await kv.get<string>(key);
-      if (!userId) {
-        return null;
-      }
-      const user = await kv.get<User>(["users", userId]);
+    const user = await findUnique<User>(
+      userEntity,
+      kv,
+      sessionId,
+      "users_by_session",
+      true,
+    );
 
-      return user.value;
-    }
-    const { value: userId } = await kv.get<string>(key);
-    if (!userId) {
-      return null;
-    }
-    const user = await kv.get<User>(["users", userId]);
-
-    return user.value;
+    return user?.value;
   }
 
   listUsers(options?: Deno.KvListOptions) {
-    return kv.list<User>({ prefix: ["users"] }, options);
+    return findMany<User>(userEntity, kv, options);
   }
 }

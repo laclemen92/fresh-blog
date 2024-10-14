@@ -1,6 +1,8 @@
-import { Post } from "@/models/Post.ts";
+import { Post, postEntity } from "@/models/Post.ts";
+import { Vote, voteEntity } from "@/models/Vote.ts";
 import { ulid } from "$std/ulid/mod.ts";
 import { kv } from "@/utils/db.ts";
+import { create, deleteKey, findMany, findUnique } from "@laclemen92/kvm";
 
 export class PostService {
   constructor() {
@@ -20,25 +22,14 @@ export class PostService {
 
   async createPost(post: Post) {
     post.createdAt = new Date();
-    const postsKey = ["posts", post.id];
-    const postsBySlugKey = ["posts_by_slug", post.slug];
-    const postsUserKey = ["user", post.userLogin, "posts", post.id];
 
-    const res = await kv.atomic()
-      .check({ key: postsKey, versionstamp: null })
-      .check({ key: postsBySlugKey, versionstamp: null })
-      .check({ key: postsUserKey, versionstamp: null })
-      .set(postsKey, post)
-      .set(postsBySlugKey, post.id)
-      .set(postsUserKey, post.id)
-      .commit();
-
-    if (!res.ok) throw new Error("Failed to create post");
+    const result = await create<Post>(postEntity, kv, post);
+    if (!result || !result?.value) throw new Error("Failed to create post");
   }
 
   async getPost(id: string) {
-    const res = await kv.get<Post>(["posts", id]);
-    return res.value;
+    const result = await findUnique<Post>(postEntity, kv, id);
+    return result?.value;
   }
 
   async getPostBySlug(slug: string) {
@@ -67,27 +58,37 @@ export class PostService {
   }
 
   async deletePost(id: string) {
-    const post = await this.getPost(id);
-    if (post === null) return;
-
-    const postsKey = ["posts", id];
-    const postsBySlugKey = ["posts_by_slug", post.slug];
-    const postsUserKey = ["user", post.userLogin, "posts", post.id];
-
-    await kv.delete(postsKey);
-    await kv.delete(postsBySlugKey);
-    await kv.delete(postsUserKey);
+    await deleteKey<Post>(postEntity, kv, id, {
+      cascadeDelete: true,
+    });
+    // also delete the votes for this post
+    const votes = await findMany<Vote>(voteEntity, kv, {
+      prefix: [voteEntity.name, id],
+    });
+    votes.forEach(async (vote) => {
+      await deleteKey<Vote>(voteEntity, kv, {
+        postId: vote.value.postId,
+        userLogin: vote.value.userLogin,
+      });
+    });
     return;
   }
 
   listPosts(options?: Deno.KvListOptions) {
-    return kv.list<Post>({ prefix: ["posts"] }, options);
+    return findMany<Post>(postEntity, kv, options);
   }
 
-  listPostsByUser(
+  async listPostsByUser(
     userLogin: string,
     options?: Deno.KvListOptions,
   ) {
-    return kv.list<Post>({ prefix: ["user", userLogin, "posts"] }, options);
+    const postIds = await findMany<string>(postEntity, kv, {
+      ...options,
+      prefix: ["user", userLogin, "posts"],
+    });
+
+    return await Promise.all(postIds.map(async (postId) => {
+      return await findUnique<Post>(postEntity, kv, postId?.value);
+    }));
   }
 }

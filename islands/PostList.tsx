@@ -28,7 +28,7 @@ export default function PostList(
       {posts.map((post) => {
         post = isDenoPost(post) ? post.value : post;
 
-        return (!post.deleted
+        return (post && !post.deleted
           ? (
             <div
               key={post.id}

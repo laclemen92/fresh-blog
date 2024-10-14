@@ -12,10 +12,7 @@ interface Props {
 export const handler: Handlers<Props> = {
   async GET(_req, ctx) {
     const postService = new PostService();
-    const iter = await postService.listPosts({ reverse: true });
-    const posts = [];
-
-    for await (const res of iter) posts.push(res);
+    const posts = await postService.listPosts({ reverse: true });
 
     if (posts) {
       return ctx.render({ posts });
