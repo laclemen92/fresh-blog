@@ -147,6 +147,27 @@ export function Header(props: HeaderProps) {
                           </li>
                         )
                         : null}
+                      {props.sessionUser &&
+                          props.sessionUser.role === UserRoles.ADMIN
+                        ? (
+                          <li class="flex justify-between hover:bg-gray-100">
+                            <Button
+                              href={`/notes`}
+                              htmlClass="flex flex-1 block px-4 py-2 text-base"
+                              type="anchor"
+                            >
+                              Notes
+                            </Button>
+                            <Button
+                              href={`/notes/new`}
+                              htmlClass="block px-4 py-2 text-gray-400 hover:text-gray-900"
+                              type="anchor"
+                            >
+                              <IconPlus class="w-5 h-5" />
+                            </Button>
+                          </li>
+                        )
+                        : null}
                       <li>
                         <Button
                           href="/posts/favorites"
