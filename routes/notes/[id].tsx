@@ -16,6 +16,9 @@ export const handler: Handlers<Page, SignedInState> = {
     const note = await noteService.getNote(id);
 
     if (note) {
+      if (note.userLogin !== ctx.state.sessionUser.login) {
+        return ctx.render(undefined);
+      }
       return ctx.render({
         note,
       });

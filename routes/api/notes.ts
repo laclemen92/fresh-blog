@@ -7,9 +7,21 @@ import { BadRequestError } from "@/utils/http.ts";
 import { Note } from "@/models/Note.ts";
 
 export const handler: Handlers<undefined, SignedInState> = {
-  async DELETE(req, _ctx) {
+  async DELETE(req, ctx) {
     const body = await req.json();
     const noteService = new NoteService();
+    const currentNote = await noteService.getNote(body.id);
+
+    if (!currentNote) {
+      return Response.json({ data: null, message: `Error deleting note` }, {
+        status: STATUS_CODE.NotFound,
+      });
+    }
+    if (currentNote.userLogin !== ctx.state.sessionUser.login) {
+      return Response.json({ data: null, message: `Not authorized` }, {
+        status: STATUS_CODE.Unauthorized,
+      });
+    }
     await noteService.deleteNote(body.id);
     return new Response(null, { status: STATUS_CODE.NoContent });
   },
@@ -31,11 +43,14 @@ export const handler: Handlers<undefined, SignedInState> = {
       content: body.content,
     };
 
-    console.error("a note", note);
-
     const noteService = new NoteService();
-    let dbNote: Note | null | undefined;
-    if (body.id && await noteService.getNote(note.id)) {
+    let dbNote: Note | null | undefined = await noteService.getNote(note.id);
+    if (body.id && dbNote) {
+      if (dbNote.userLogin !== ctx.state.sessionUser.login) {
+        return Response.json({ data: null, message: `Unauthorized` }, {
+          status: STATUS_CODE.Unauthorized,
+        });
+      }
       dbNote = await noteService.updateNote(note.id, note);
     } else {
       dbNote = await noteService.createNote(note);
