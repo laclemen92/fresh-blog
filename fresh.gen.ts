@@ -21,6 +21,7 @@ import * as $posts_index from "./routes/posts/index.tsx";
 import * as $posts_new from "./routes/posts/new.tsx";
 import * as $user_userLogin_posts from "./routes/user/[userLogin]/posts.tsx";
 import * as $Button from "./islands/Button.tsx";
+import * as $EncryptionSecretPrompt from "./islands/EncryptionSecretPrompt.tsx";
 import * as $NoteEditor from "./islands/NoteEditor.tsx";
 import * as $NoteList from "./islands/NoteList.tsx";
 import * as $NoteView from "./islands/NoteView.tsx";
@@ -52,6 +53,7 @@ const manifest = {
   },
   islands: {
     "./islands/Button.tsx": $Button,
+    "./islands/EncryptionSecretPrompt.tsx": $EncryptionSecretPrompt,
     "./islands/NoteEditor.tsx": $NoteEditor,
     "./islands/NoteList.tsx": $NoteList,
     "./islands/NoteView.tsx": $NoteView,

@@ -2,6 +2,7 @@ import { defineApp } from "$fresh/server.ts";
 import type { State } from "@/plugins/session.ts";
 import { Header } from "@/components/Header.tsx";
 import { Footer } from "@/components/Footer.tsx";
+import { EncryptionSecretPrompt } from "@/islands/EncryptionSecretPrompt.tsx";
 
 export default defineApp<State>((_, ctx) => {
   return (
@@ -25,6 +26,9 @@ export default defineApp<State>((_, ctx) => {
             </div>
           </div>
           <Footer />
+          <EncryptionSecretPrompt
+            loggedIn={ctx.state.sessionUser ? true : false}
+          />
         </div>
       </body>
     </html>

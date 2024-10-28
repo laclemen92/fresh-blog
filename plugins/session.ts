@@ -1,5 +1,5 @@
 // Copyright 2023-2024 the Deno authors. All rights reserved. MIT license.
-import { Plugin } from "$fresh/server.ts";
+import { Plugin, STATUS_CODE } from "$fresh/server.ts";
 import type { FreshContext } from "$fresh/server.ts";
 import { getSessionId } from "kv_oauth/mod.ts";
 import { UserService } from "@/services/UserService.ts";
@@ -43,9 +43,16 @@ async function setSessionState(
 async function ensureSignedIn(
   _req: Request,
   ctx: FreshContext<State>,
-) {
-  assertSignedIn(ctx);
-  return await ctx.next();
+): Promise<Response> {
+  try {
+    assertSignedIn(ctx);
+    return await ctx.next();
+  } catch (e: any) {
+    return new Response("", {
+      status: STATUS_CODE.TemporaryRedirect,
+      headers: { Location: "/" },
+    });
+  }
 }
 
 /**
@@ -75,6 +82,22 @@ export default {
     },
     {
       path: "/posts/edit/[slug]",
+      middleware: { handler: ensureSignedIn },
+    },
+    {
+      path: "/notes/new",
+      middleware: { handler: ensureSignedIn },
+    },
+    {
+      path: "/notes/[id]",
+      middleware: { handler: ensureSignedIn },
+    },
+    {
+      path: "/notes/edit/[id]",
+      middleware: { handler: ensureSignedIn },
+    },
+    {
+      path: "/notes",
       middleware: { handler: ensureSignedIn },
     },
   ],
