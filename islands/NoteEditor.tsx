@@ -74,7 +74,10 @@ export function NoteEditor(props: { note?: Note }) {
         setTextAreaHelper("\n* ", 3);
       }
 
-      if (currentLine?.trimStart().startsWith("- [ ]")) {
+      if (
+        currentLine?.trimStart().startsWith("- [ ]") ||
+        currentLine?.trimStart().startsWith("- [x]")
+      ) {
         e.preventDefault();
         setTextAreaHelper("\n- [ ] ", 7);
       }
@@ -424,6 +427,12 @@ export function NoteEditor(props: { note?: Note }) {
                     }).replaceAll(
                       "<a href",
                       `<a target="_blank" href`,
+                    ).replaceAll(
+                      `<li><input checked disabled type="checkbox"`,
+                      `<li style="list-style-type: none;"><input checked disabled type="checkbox"`,
+                    ).replaceAll(
+                      `<li><input disabled type="checkbox"`,
+                      `<li style="list-style-type: none;"><input disabled type="checkbox"`,
                     ),
                   }}
                 />
