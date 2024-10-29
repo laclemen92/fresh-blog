@@ -85,6 +85,15 @@ export default function NoteView(props: {
                     : ""
                 }`,
               ).concat("\n\n").concat(note.content),
+              {
+                allowedTags: ["input"],
+                allowedAttributes: {
+                  input: ["checked", "disabled", {
+                    name: "type",
+                    values: ["checkbox"],
+                  }],
+                },
+              },
             ),
           }}
         />

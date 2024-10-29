@@ -8,12 +8,12 @@ import IconItalic from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/italic.ts
 import IconBlockquote from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/blockquote.tsx";
 import IconCode from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/code.tsx";
 import IconLink from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/link.tsx";
+import IconList from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list.tsx";
+import IconListCheck from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-check.tsx";
+import IconListNumbers from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-numbers.tsx";
 import { Tab } from "@headlessui/react";
 import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
-import { slug } from "https://deno.land/x/slug@v1.1.0/mod.ts";
-import { ulid } from "$std/ulid/mod.ts";
-import { ApplicationAccessTokenService, FleekSdk } from "npm:@fleekxyz/sdk";
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
@@ -31,6 +31,7 @@ export function NoteEditor(props: { note?: Note }) {
   // const titleValue = title.value;
   const value = content.value;
   const isEditing = props?.note ? useSignal(true) : useSignal(false);
+  const specialType = useSignal("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -54,8 +55,30 @@ export function NoteEditor(props: { note?: Note }) {
     window.location.href = `/notes/${updatedNote.id}`;
   };
 
-  const handleContentKeyPress = (e: Event) => {
+  const handleContentKeyPress = (e: KeyboardEvent) => {
     content.value = (e?.target as HTMLInputElement)?.value;
+
+    const value = textareaRef.current?.value || "";
+    const currentLineIndex = value.lastIndexOf(
+      "\n",
+      (textareaRef.current?.selectionStart || 0) - 1,
+    ) + 1;
+    const currentLine = textareaRef.current?.value.substring(
+      currentLineIndex,
+      textareaRef.current?.selectionStart,
+    );
+
+    if (e.key === "Enter") {
+      if (currentLine?.trimStart().startsWith("*")) {
+        e.preventDefault();
+        setTextAreaHelper("\n* ", 3);
+      }
+
+      if (currentLine?.trimStart().startsWith("- [ ]")) {
+        e.preventDefault();
+        setTextAreaHelper("\n- [ ] ", 7);
+      }
+    }
   };
 
   const handleContentInput = (e: Event) => {
@@ -116,6 +139,16 @@ export function NoteEditor(props: { note?: Note }) {
 
   const addNewHeading = (e: Event) => {
     setTextAreaHelper(`### `, 4);
+  };
+
+  const addBulletPoint = (e: Event) => {
+    setTextAreaHelper(`* `, 2);
+    specialType.value = "bullet";
+  };
+
+  const addCheckbox = (e: Event) => {
+    setTextAreaHelper(`- [ ] `, 4);
+    specialType.value = "checkbox";
   };
 
   const addBold = (e: Event) => {
@@ -271,6 +304,32 @@ export function NoteEditor(props: { note?: Note }) {
                         class="h-5 w-5"
                       />
                     </Button>
+                    <Button
+                      onClick={addBulletPoint}
+                      type="button"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Unordered List"
+                      tooltipId="tooltip-list"
+                    >
+                      <IconList
+                        data-tooltip-target="tooltip-list"
+                        class="h-5 w-5"
+                      />
+                    </Button>
+                    <Button
+                      onClick={addCheckbox}
+                      type="button"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Checklist"
+                      tooltipId="tooltip-list-check"
+                    >
+                      <IconListCheck
+                        data-tooltip-target="tooltip-list-check"
+                        class="h-5 w-5"
+                      />
+                    </Button>
                   </div>
                 )
                 : null}
@@ -281,7 +340,7 @@ export function NoteEditor(props: { note?: Note }) {
                   <textarea
                     class="block w-full grow rounded-md border-0 py-1.5 text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:ring-0 focus:outline-2 focus:outline-gray-900 sm:text-sm sm:leading-6 resize-none scroll-smooth"
                     placeholder="Put your note in some awesome markdown here!"
-                    onKeyPress={handleContentKeyPress}
+                    onKeyDown={handleContentKeyPress}
                     onPaste={handleContentPaste}
                     onInput={handleContentInput}
                     onDragOver={handleDragOver}
@@ -296,7 +355,17 @@ export function NoteEditor(props: { note?: Note }) {
               <Tab.Panel>
                 <div
                   class="markdown-body"
-                  dangerouslySetInnerHTML={{ __html: render(content.value) }}
+                  dangerouslySetInnerHTML={{
+                    __html: render(content.value, {
+                      allowedTags: ["input"],
+                      allowedAttributes: {
+                        input: ["checked", "disabled", {
+                          name: "type",
+                          values: ["checkbox"],
+                        }],
+                      },
+                    }),
+                  }}
                 />
               </Tab.Panel>
             </Tab.Panels>
