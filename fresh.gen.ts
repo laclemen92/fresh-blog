@@ -21,13 +21,12 @@ import * as $posts_index from "./routes/posts/index.tsx";
 import * as $posts_new from "./routes/posts/new.tsx";
 import * as $user_userLogin_posts from "./routes/user/[userLogin]/posts.tsx";
 import * as $Button from "./islands/Button.tsx";
+import * as $DeleteNote from "./islands/DeleteNote.tsx";
+import * as $DeletePostButton from "./islands/DeletePostButton.tsx";
 import * as $EncryptionSecretPrompt from "./islands/EncryptionSecretPrompt.tsx";
 import * as $NoteEditor from "./islands/NoteEditor.tsx";
-import * as $NoteList from "./islands/NoteList.tsx";
-import * as $NoteView from "./islands/NoteView.tsx";
 import * as $PostEditor from "./islands/PostEditor.tsx";
-import * as $PostList from "./islands/PostList.tsx";
-import * as $PostView from "./islands/PostView.tsx";
+import * as $VoteButton from "./islands/VoteButton.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -53,13 +52,12 @@ const manifest = {
   },
   islands: {
     "./islands/Button.tsx": $Button,
+    "./islands/DeleteNote.tsx": $DeleteNote,
+    "./islands/DeletePostButton.tsx": $DeletePostButton,
     "./islands/EncryptionSecretPrompt.tsx": $EncryptionSecretPrompt,
     "./islands/NoteEditor.tsx": $NoteEditor,
-    "./islands/NoteList.tsx": $NoteList,
-    "./islands/NoteView.tsx": $NoteView,
     "./islands/PostEditor.tsx": $PostEditor,
-    "./islands/PostList.tsx": $PostList,
-    "./islands/PostView.tsx": $PostView,
+    "./islands/VoteButton.tsx": $VoteButton,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

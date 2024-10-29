@@ -1,7 +1,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { Post } from "@/models/Post.ts";
-import PostList from "@/islands/PostList.tsx";
+import PostList from "@/components/PostList.tsx";
 import { PostService } from "@/services/PostService.ts";
 import { VoteService } from "@/services/VoteService.ts";
 import { SignedInState } from "@/plugins/session.ts";

@@ -2,7 +2,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { Post } from "@/models/Post.ts";
 import { PostService } from "@/services/PostService.ts";
-import PostList from "@/islands/PostList.tsx";
+import PostList from "@/components/PostList.tsx";
 
 interface Props {
   posts: Deno.KvEntry<Post>[];

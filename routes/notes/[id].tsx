@@ -3,7 +3,7 @@ import { NoteService } from "@/services/NoteService.ts";
 import Error404 from "@/routes/_404.tsx";
 import type { SignedInState, State } from "@/plugins/session.ts";
 import type { Note } from "@/models/Note.ts";
-import NoteView from "@/islands/NoteView.tsx";
+import NoteView from "@/components/NoteView.tsx";
 
 interface Page {
   note: Note;

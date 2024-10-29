@@ -3,7 +3,7 @@ import { Head } from "$fresh/runtime.ts";
 import { PostService } from "@/services/PostService.ts";
 import { Post } from "@/models/Post.ts";
 
-import PostList from "@/islands/PostList.tsx";
+import PostList from "@/components/PostList.tsx";
 
 interface Props {
   posts: Deno.KvEntry<Post>[];

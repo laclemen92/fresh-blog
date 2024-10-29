@@ -2,7 +2,7 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { Note } from "@/models/Note.ts";
 import { NoteService } from "@/services/NoteService.ts";
-import NoteList from "@/islands/NoteList.tsx";
+import NoteList from "@/components/NoteList.tsx";
 import { SignedInState, State } from "@/plugins/session.ts";
 import Error404 from "@/routes/_404.tsx";
 

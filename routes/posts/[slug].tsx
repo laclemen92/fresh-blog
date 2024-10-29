@@ -3,7 +3,7 @@ import { PostService } from "@/services/PostService.ts";
 import Error404 from "@/routes/_404.tsx";
 import type { SignedInState, State } from "@/plugins/session.ts";
 import type { Post } from "@/models/Post.ts";
-import PostView from "@/islands/PostView.tsx";
+import PostView from "@/components/PostView.tsx";
 import { VoteService } from "@/services/VoteService.ts";
 
 interface Page {

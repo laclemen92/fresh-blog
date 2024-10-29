@@ -8,6 +8,7 @@ import type { User } from "@/models/User.ts";
 import IconHeart from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart.tsx";
 import IconHeartFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart-filled.tsx";
 import { UserRoles } from "@/models/User.ts";
+import { DeleteNote } from "@/islands/DeleteNote.tsx";
 
 const formatNoteDate = (noteDate: Date) => {
   noteDate = new Date(noteDate);
@@ -51,24 +52,10 @@ export default function NoteView(props: {
         {sessionUser?.login === note.userLogin &&
             sessionUser?.role === UserRoles.ADMIN
           ? (
-            <Button
-              onClick={async (e) => {
-                const resp = await fetch(`/api/notes`, {
-                  method: "DELETE",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(note),
-                });
-
-                window.location.href = `/user/${sessionUser.login}/notes`;
-              }}
-              style="danger"
-              type="button"
-              htmlClass="float-right rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
-            >
-              Delete
-            </Button>
+            <DeleteNote
+              note={note}
+              redirect={`/notes`}
+            />
           )
           : null}
       </div>
