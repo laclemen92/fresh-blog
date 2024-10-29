@@ -98,8 +98,6 @@ export function PostEditor(props: { post?: Post }) {
 
     if (e.dataTransfer) {
       const file = e.dataTransfer.files[0];
-
-      console.error(file);
     }
   };
 

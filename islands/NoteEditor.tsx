@@ -101,8 +101,12 @@ export function NoteEditor(props: { note?: Note }) {
             });
             const data = await response.json();
 
-            const imageTag =
-              `<img alt="${file.name}" src="${data.imageUrl}"></img>`;
+            const dimensions: { width: number; height: number } =
+              await getPhotoDimensions(file);
+
+            const imageTag = `<img alt="${file.name}" width="${
+              dimensions.width / 2
+            }" src="${data.imageUrl}"></img>\n`;
             setTextAreaHelper(imageTag, imageTag.length);
           }
         }
@@ -115,14 +119,67 @@ export function NoteEditor(props: { note?: Note }) {
     e.preventDefault();
   };
 
-  const handleDrop = (e: DragEvent) => {
+  function getPhotoDimensions(
+    file: File,
+  ): Promise<{ width: number; height: number }> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const img = new Image();
+
+        img.onload = () => {
+          resolve({ width: img.width, height: img.height });
+        };
+
+        img.onerror = (err) => {
+          reject(err);
+        };
+
+        img.src = e.target?.result?.toString() || "";
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const handleDrop = async (e: DragEvent) => {
     e.preventDefault();
 
     if (e.dataTransfer) {
       const file = e.dataTransfer.files[0];
 
-      console.error(file);
+      if (file.type.indexOf("image") > -1) {
+        const formData = new FormData();
+        formData.append("blob", file);
+        const response = await fetch(`/api/images`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+
+        const dimensions: { width: number; height: number } =
+          await getPhotoDimensions(file);
+
+        const imageTag = `<img alt="${file.name}" width="${
+          dimensions.width / 2
+        }" src="${data.imageUrl}"></img>\n`;
+        setTextAreaHelper(imageTag, imageTag.length);
+      } else {
+        const formData = new FormData();
+        formData.append("blob", file);
+        const response = await fetch(`/api/images`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await response.json();
+
+        const linkTag = `[${file.name}](${data.imageUrl})`;
+        setTextAreaHelper(linkTag, linkTag.length);
+      }
     }
+
+    content.value = (e?.target as HTMLInputElement)?.value;
   };
 
   const setTextAreaHelper = (newText: string, newCursorPosition: number) => {
@@ -364,7 +421,10 @@ export function NoteEditor(props: { note?: Note }) {
                           values: ["checkbox"],
                         }],
                       },
-                    }),
+                    }).replaceAll(
+                      "<a href",
+                      `<a target="_blank" href`,
+                    ),
                   }}
                 />
               </Tab.Panel>
