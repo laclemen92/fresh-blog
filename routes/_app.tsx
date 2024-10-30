@@ -13,7 +13,11 @@ export default defineApp<State>((_, ctx) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>fresh-blog</title>
         <link rel="stylesheet" href="/styles.css" />
-        <script src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js">
+        <script
+          defer
+          async
+          src="https://unpkg.com/flowbite@1.7.0/dist/flowbite.min.js"
+        >
         </script>
       </head>
       <body>
