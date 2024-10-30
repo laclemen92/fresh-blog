@@ -4,7 +4,7 @@ import { getSecretKey, setSecretKey } from "@/stores/secretKeyStore.ts";
 import { PageProps } from "$fresh/server.ts";
 
 export function EncryptionSecretPrompt(props: any) {
-  const currentKey = getSecretKey();
+  const currentKey = true; // getSecretKey();
 
   if (!props.loggedIn) return null;
   if (currentKey) return null; // Don't show modal if key is set
