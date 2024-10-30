@@ -21,7 +21,6 @@
     "**/_fresh/*"
   ],
   "imports": {
-    "$flowbite/": "https://deno.land/x/fresh_flowbite@1.0.0-1.7.0/",
     "$fresh/": "https://deno.land/x/fresh@1.7.2/",
     "$gfm": "https://deno.land/x/gfm@0.6.0/mod.ts",
     "$std/": "https://deno.land/std@0.211.0/",
