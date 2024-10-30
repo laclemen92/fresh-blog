@@ -7,17 +7,20 @@ export function Footer() {
         <a
           class="hover:underline flex gap-2 items-center"
           href="https://github.com/laclemen92/fresh-blog"
+          aria-label="Link to the github repo for this app"
         >
           <IconBrandGithubFilled class="h-6 w-6 text-black" />
         </a>
         <a
           class="flex items-center gap-2 text-gray-700"
           href="https://fresh.deno.dev"
+          aria-label="Link to deno fresh"
         >
-          <a href="https://fresh.deno.dev">
+          <a href="https://fresh.deno.dev" aria-label="Link to deno fresh">
             <img
               width="197"
               height="37"
+              alt="fresh badge"
               src="https://fresh.deno.dev/fresh-badge.svg"
             />
           </a>

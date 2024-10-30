@@ -6,8 +6,9 @@ import { EncryptionSecretPrompt } from "@/islands/EncryptionSecretPrompt.tsx";
 
 export default defineApp<State>((_, ctx) => {
   return (
-    <html>
+    <html lang="en">
       <head>
+        <meta name="description" content="Luke Clement's Blog" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>fresh-blog</title>

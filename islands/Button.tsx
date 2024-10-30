@@ -14,6 +14,7 @@ export interface ButtonProps {
   dataDropdownToggle?: string;
   dataDropdownPlacement?: string;
   disabled?: boolean;
+  ariaLabel?: string;
 }
 
 export function Button(props: ButtonProps) {
@@ -89,6 +90,7 @@ export function Button(props: ButtonProps) {
           data-dropdown-toggle={props.dataDropdownToggle || ""}
           data-dropdown-placement={props.dataDropdownPlacement || ""}
           disabled={props.disabled}
+          aria-label={props.ariaLabel || ""}
         >
           {props.children}
         </button>
@@ -111,6 +113,7 @@ export function Button(props: ButtonProps) {
         data-dropdown-toggle={props.dataDropdownToggle || ""}
         data-dropdown-placement={props.dataDropdownPlacement || ""}
         disabled={props.disabled}
+        aria-label={props.ariaLabel || ""}
       >
         {props.children}
       </button>

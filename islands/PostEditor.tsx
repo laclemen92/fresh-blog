@@ -199,6 +199,7 @@ export function PostEditor(props: { post?: Post }) {
                       tooltip={true}
                       tooltipContent="Heading"
                       tooltipId="tooltip-heading"
+                      ariaLabel="Add Heading"
                     >
                       <IconHeading
                         data-tooltip-target="tooltip-heading"
@@ -212,6 +213,7 @@ export function PostEditor(props: { post?: Post }) {
                       tooltipContent="Bold"
                       tooltipId="tooltip-bold"
                       onClick={addBold}
+                      ariaLabel="Add Bold"
                     >
                       <IconBold
                         data-tooltip-target="tooltip-bold"
@@ -225,6 +227,7 @@ export function PostEditor(props: { post?: Post }) {
                       tooltipContent="Italics"
                       tooltipId="tooltip-italics"
                       onClick={addItalics}
+                      ariaLabel="Add Italic"
                     >
                       <IconItalic
                         data-tooltip-target="tooltip-italics"
@@ -238,6 +241,7 @@ export function PostEditor(props: { post?: Post }) {
                       tooltipContent="Quote"
                       tooltipId="tooltip-quote"
                       onClick={addQuote}
+                      ariaLabel="Add Quote"
                     >
                       <IconBlockquote
                         data-tooltip-target="tooltip-quote"
@@ -251,6 +255,7 @@ export function PostEditor(props: { post?: Post }) {
                       tooltipContent="Code"
                       tooltipId="tooltip-code"
                       onClick={addCode}
+                      ariaLabel="Add Code"
                     >
                       <IconCode
                         data-tooltip-target="tooltip-code"
@@ -264,6 +269,7 @@ export function PostEditor(props: { post?: Post }) {
                       tooltipContent="Link"
                       tooltipId="tooltip-link"
                       onClick={addLink}
+                      ariaLabel="Add Link"
                     >
                       <IconLink
                         data-tooltip-target="tooltip-link"

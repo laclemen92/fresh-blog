@@ -293,6 +293,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltip={true}
                       tooltipContent="Heading"
                       tooltipId="tooltip-heading"
+                      ariaLabel="Add Heading"
                     >
                       <IconHeading
                         data-tooltip-target="tooltip-heading"
@@ -306,6 +307,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltipContent="Bold"
                       tooltipId="tooltip-bold"
                       onClick={addBold}
+                      ariaLabel="Add Bold"
                     >
                       <IconBold
                         data-tooltip-target="tooltip-bold"
@@ -319,6 +321,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltipContent="Italics"
                       tooltipId="tooltip-italics"
                       onClick={addItalics}
+                      ariaLabel="Add Italics"
                     >
                       <IconItalic
                         data-tooltip-target="tooltip-italics"
@@ -332,6 +335,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltipContent="Quote"
                       tooltipId="tooltip-quote"
                       onClick={addQuote}
+                      ariaLabel="Add Quote"
                     >
                       <IconBlockquote
                         data-tooltip-target="tooltip-quote"
@@ -345,6 +349,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltipContent="Code"
                       tooltipId="tooltip-code"
                       onClick={addCode}
+                      ariaLabel="Add Code"
                     >
                       <IconCode
                         data-tooltip-target="tooltip-code"
@@ -358,6 +363,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltipContent="Link"
                       tooltipId="tooltip-link"
                       onClick={addLink}
+                      ariaLabel="Add Link"
                     >
                       <IconLink
                         data-tooltip-target="tooltip-link"
@@ -371,6 +377,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltip={true}
                       tooltipContent="Unordered List"
                       tooltipId="tooltip-list"
+                      ariaLabel="Add Bullet List"
                     >
                       <IconList
                         data-tooltip-target="tooltip-list"
@@ -384,6 +391,7 @@ export function NoteEditor(props: { note?: Note }) {
                       tooltip={true}
                       tooltipContent="Checklist"
                       tooltipId="tooltip-list-check"
+                      ariaLabel="Add Task List"
                     >
                       <IconListCheck
                         data-tooltip-target="tooltip-list-check"
