@@ -25,8 +25,6 @@ import * as $DeleteNote from "./islands/DeleteNote.tsx";
 import * as $DeletePostButton from "./islands/DeletePostButton.tsx";
 import * as $Editor from "./islands/Editor.tsx";
 import * as $EncryptionSecretPrompt from "./islands/EncryptionSecretPrompt.tsx";
-import * as $NoteEditor from "./islands/NoteEditor.tsx";
-import * as $PostEditor from "./islands/PostEditor.tsx";
 import * as $VoteButton from "./islands/VoteButton.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -57,8 +55,6 @@ const manifest = {
     "./islands/DeletePostButton.tsx": $DeletePostButton,
     "./islands/Editor.tsx": $Editor,
     "./islands/EncryptionSecretPrompt.tsx": $EncryptionSecretPrompt,
-    "./islands/NoteEditor.tsx": $NoteEditor,
-    "./islands/PostEditor.tsx": $PostEditor,
     "./islands/VoteButton.tsx": $VoteButton,
   },
   baseUrl: import.meta.url,
