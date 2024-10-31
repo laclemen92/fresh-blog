@@ -4,7 +4,7 @@ import type { SignedInState } from "@/plugins/session.ts";
 import { PostService } from "@/services/PostService.ts";
 import { ulid } from "$std/ulid/mod.ts";
 import { BadRequestError } from "@/utils/http.ts";
-import { Post } from "@/scripts/deleteUser.ts";
+import { Post } from "@/models/Post.ts";
 
 export const handler: Handlers<undefined, SignedInState> = {
   async DELETE(req, _ctx) {
