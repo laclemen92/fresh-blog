@@ -2,11 +2,9 @@ import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
 import { Button } from "@/islands/Button.tsx";
 import { useSignal } from "@preact/signals";
-import { PostEditor } from "@/islands/PostEditor.tsx";
+import { Editor } from "@/islands/Editor.tsx";
 import type { Post } from "@/models/Post.ts";
 import type { User } from "@/models/User.ts";
-import IconHeart from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart.tsx";
-import IconHeartFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart-filled.tsx";
 import { UserRoles } from "@/models/User.ts";
 import { VoteButton } from "@/islands/VoteButton.tsx";
 import { DeletePostButton } from "@/islands/DeletePostButton.tsx";
@@ -66,7 +64,7 @@ export default function PostView(props: {
         />
       </div>
 
-      {isEditing.value ? <PostEditor post={post} /> : (
+      {isEditing.value ? <Editor data={post} type={"post"} /> : (
         <div
           class="markdown-body"
           dangerouslySetInnerHTML={{

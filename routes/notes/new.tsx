@@ -1,9 +1,9 @@
-import { NoteEditor } from "@/islands/NoteEditor.tsx";
+import { Editor } from "@/islands/Editor.tsx";
 
 export default function NewNote() {
   return (
     <>
-      <NoteEditor />
+      <Editor type={"note"} />
     </>
   );
 }

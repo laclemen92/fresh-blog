@@ -1,9 +1,9 @@
-import { PostEditor } from "@/islands/PostEditor.tsx";
+import { Editor } from "@/islands/Editor.tsx";
 
 export default function NewPost() {
   return (
     <>
-      <PostEditor />
+      <Editor type={"post"} />
     </>
   );
 }

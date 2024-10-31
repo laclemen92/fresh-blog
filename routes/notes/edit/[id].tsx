@@ -3,7 +3,7 @@ import { NoteService } from "@/services/NoteService.ts";
 import Error404 from "@/routes/_404.tsx";
 import type { SignedInState, State } from "@/plugins/session.ts";
 import type { Note } from "@/models/Note.ts";
-import { NoteEditor } from "@/islands/NoteEditor.tsx";
+import { Editor } from "@/islands/Editor.tsx";
 
 interface Page {
   note: Note;
@@ -37,7 +37,7 @@ export default function EditNotePage({ data, state }: PageProps<Page | null>) {
 
   return (
     <>
-      <NoteEditor note={data.note} />
+      <Editor data={data.note} type={"note"} />
     </>
   );
 }

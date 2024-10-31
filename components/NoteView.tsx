@@ -2,11 +2,9 @@ import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
 import { Button } from "@/islands/Button.tsx";
 import { useSignal } from "@preact/signals";
-import { NoteEditor } from "@/islands/NoteEditor.tsx";
+import { Editor } from "@/islands/Editor.tsx";
 import type { Note } from "@/models/Note.ts";
 import type { User } from "@/models/User.ts";
-import IconHeart from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart.tsx";
-import IconHeartFilled from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/heart-filled.tsx";
 import { UserRoles } from "@/models/User.ts";
 import { DeleteNote } from "@/islands/DeleteNote.tsx";
 
@@ -60,7 +58,7 @@ export default function NoteView(props: {
           : null}
       </div>
 
-      {isEditing.value ? <NoteEditor note={note} /> : (
+      {isEditing.value ? <Editor data={note} type={"note"} /> : (
         <div
           class="markdown-body"
           dangerouslySetInnerHTML={{

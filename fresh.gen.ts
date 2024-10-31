@@ -23,6 +23,7 @@ import * as $user_userLogin_posts from "./routes/user/[userLogin]/posts.tsx";
 import * as $Button from "./islands/Button.tsx";
 import * as $DeleteNote from "./islands/DeleteNote.tsx";
 import * as $DeletePostButton from "./islands/DeletePostButton.tsx";
+import * as $Editor from "./islands/Editor.tsx";
 import * as $EncryptionSecretPrompt from "./islands/EncryptionSecretPrompt.tsx";
 import * as $NoteEditor from "./islands/NoteEditor.tsx";
 import * as $PostEditor from "./islands/PostEditor.tsx";
@@ -54,6 +55,7 @@ const manifest = {
     "./islands/Button.tsx": $Button,
     "./islands/DeleteNote.tsx": $DeleteNote,
     "./islands/DeletePostButton.tsx": $DeletePostButton,
+    "./islands/Editor.tsx": $Editor,
     "./islands/EncryptionSecretPrompt.tsx": $EncryptionSecretPrompt,
     "./islands/NoteEditor.tsx": $NoteEditor,
     "./islands/PostEditor.tsx": $PostEditor,

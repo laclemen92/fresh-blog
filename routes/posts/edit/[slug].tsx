@@ -3,7 +3,7 @@ import { PostService } from "@/services/PostService.ts";
 import Error404 from "@/routes/_404.tsx";
 import type { State } from "@/plugins/session.ts";
 import type { Post } from "@/models/Post.ts";
-import { PostEditor } from "@/islands/PostEditor.tsx";
+import { Editor } from "@/islands/Editor.tsx";
 
 interface Page {
   post: Post;
@@ -34,7 +34,7 @@ export default function EditPostPage({ data, state }: PageProps<Page | null>) {
 
   return (
     <>
-      <PostEditor post={data.post} />
+      <Editor data={data.post} type={"post"} />
     </>
   );
 }
