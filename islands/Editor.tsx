@@ -38,14 +38,15 @@ export function Editor(props: { data?: Note | Post; type: string }) {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const title = titleRef.current?.value || "";
-    // I do a slug thing here for posts?
     const toPost: Partial<Post> & Partial<Note> = {
       title,
       content: content.value,
       id: props.data?.id || undefined,
     };
     if (props.type === "post") {
-      toPost.slug = slug(title);
+      const postSlug = slug(title);
+      toPost.slug = postSlug;
+      toPost.url = postSlug;
     }
 
     const url = props.type === "post" ? `posts` : `notes`;
@@ -60,7 +61,11 @@ export function Editor(props: { data?: Note | Post; type: string }) {
 
     const updated = await resp.json();
 
-    window.location.href = `/${url}/${updated.id}`;
+    if (props.type === "note") {
+      window.location.href = `/${url}/${updated.id}`;
+    } else {
+      window.location.href = `/${url}/${updated.slug}`;
+    }
   };
 
   const handleContentKeyPress = (e: KeyboardEvent) => {

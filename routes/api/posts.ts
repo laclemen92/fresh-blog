@@ -4,6 +4,7 @@ import type { SignedInState } from "@/plugins/session.ts";
 import { PostService } from "@/services/PostService.ts";
 import { ulid } from "$std/ulid/mod.ts";
 import { BadRequestError } from "@/utils/http.ts";
+import { Post } from "@/scripts/deleteUser.ts";
 
 export const handler: Handlers<undefined, SignedInState> = {
   async DELETE(req, _ctx) {
@@ -41,12 +42,18 @@ export const handler: Handlers<undefined, SignedInState> = {
     };
 
     const postService = new PostService();
-    if (body.id && await postService.getPost(post.id)) {
-      await postService.updatePost(post.id, post);
+    let dbPost: Post | null | undefined = await postService.getPost(post.id);
+    if (body.id && dbPost) {
+      if (dbPost.userLogin !== ctx.state.sessionUser.login) {
+        return Response.json({ data: null, message: `Unauthorized` }, {
+          status: STATUS_CODE.Unauthorized,
+        });
+      }
+      dbPost = await postService.updatePost(post.id, post);
     } else {
-      await postService.createPost(post);
+      dbPost = await postService.createPost(post);
     }
 
-    return new Response(null, { status: STATUS_CODE.Created });
+    return Response.json(dbPost, { status: STATUS_CODE.Created });
   },
 };

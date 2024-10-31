@@ -20,11 +20,12 @@ export class PostService {
     };
   }
 
-  async createPost(post: Post) {
+  async createPost(post: Post): Promise<Post> {
     post.createdAt = new Date();
 
     const result = await create<Post>(postEntity, kv, post);
     if (!result || !result?.value) throw new Error("Failed to create post");
+    return result.value;
   }
 
   async getPost(id: string) {
@@ -42,7 +43,7 @@ export class PostService {
     return res.value;
   }
 
-  async updatePost(id: string, post: Post) {
+  async updatePost(id: string, post: Post): Promise<Post | null | undefined> {
     post.updatedAt = new Date();
     const postsKey = ["posts", id];
     const postsBySlugKey = ["posts_by_slug", post.slug];
@@ -55,6 +56,8 @@ export class PostService {
       .commit();
 
     if (!res.ok) throw new Error("Failed to update post");
+
+    return await this.getPost(id);
   }
 
   async deletePost(id: string) {
