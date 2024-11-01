@@ -12,6 +12,8 @@ import IconLink from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/link.tsx";
 import IconList from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list.tsx";
 import IconListCheck from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-check.tsx";
 import IconListNumbers from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-numbers.tsx";
+import IconPencil from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/pencil.tsx";
+import IconEye from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/eye.tsx";
 import { Tab } from "@headlessui/react";
 import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
@@ -282,7 +284,10 @@ export function Editor(props: { data?: Note | Post; type: string }) {
                       "rounded-md border border-transparent px-3 py-2 text-sm font-semibold",
                     )}
                 >
-                  Write
+                  <span className="hidden sm:inline">Write</span>
+                  <span className="sm:hidden">
+                    <IconPencil class="h-5 w-5" />
+                  </span>
                 </Tab>
                 <Tab
                   className={({ selected }) =>
@@ -293,7 +298,10 @@ export function Editor(props: { data?: Note | Post; type: string }) {
                       "rounded-md border border-transparent px-3 py-2 text-sm font-semibold",
                     )}
                 >
-                  Preview
+                  <span className="hidden md:inline">Preview</span>
+                  <span className="md:hidden">
+                    <IconEye class="h-5 w-5" />
+                  </span>
                 </Tab>
               </div>
               {selectedIndex === 0
