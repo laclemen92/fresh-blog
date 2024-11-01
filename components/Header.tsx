@@ -17,14 +17,7 @@ export function Header(props: HeaderProps) {
       <header class="flex flex-row gap-3 items-center justify-between">
         <div class="p-4 flex items-center">
           <a href="/" class="flex mr-3 items-center">
-            <Avatar
-              src="/favicon.ico"
-              alt="my face"
-              size={40}
-            />
-          </a>
-          <a href="/" class="flex mr-3 items-center">
-            <h1 class="text-2xl font-semibold">Luke Clement's Blog</h1>
+            <h1 class="text-2xl font-semibold">Notey</h1>
           </a>
         </div>
         <nav class="flex">

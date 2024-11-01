@@ -8,7 +8,7 @@ export default defineApp<State>((_, ctx) => {
   return (
     <html lang="en">
       <head>
-        <meta name="description" content="Luke Clement's Blog" />
+        <meta name="description" content="Notey App" />
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>fresh-blog</title>
