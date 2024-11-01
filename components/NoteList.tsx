@@ -21,7 +21,18 @@ export default function NoteList(
   const { notes } = props;
 
   if (!notes) {
-    return <h1>No Notes</h1>;
+    return (
+      <div>
+        <Button
+          style="primary"
+          type="anchor"
+          htmlClass="float-right rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
+          href={`/notes/new`}
+        >
+          New Note
+        </Button>
+      </div>
+    );
   }
 
   return (
