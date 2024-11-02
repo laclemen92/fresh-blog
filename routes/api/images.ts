@@ -4,7 +4,7 @@ import type { SignedInState } from "@/plugins/session.ts";
 import { ImageService } from "@/services/ImageService.ts";
 import { BadRequestError } from "@/utils/http.ts";
 import { ulid } from "$std/ulid/mod.ts";
-import { FleekSdk, PersonalAccessTokenService } from "npm:@fleekxyz/sdk@1.3.3";
+import aws from "npm:aws-sdk";
 
 export const handler: Handlers<undefined, SignedInState> = {
   async POST(req, _ctx) {
@@ -14,26 +14,38 @@ export const handler: Handlers<undefined, SignedInState> = {
       throw new BadRequestError("Blob is required");
     }
 
-    const patService = new PersonalAccessTokenService({
-      personalAccessToken: Deno.env.get("FLEEK_API_TOKEN") || "",
-      projectId: Deno.env.get("FLEEK_API_PROJECT_ID"),
+    const region = Deno.env.get("DIGITAL_OCEAN_SPACES_REGION") || "";
+    const environment = Deno.env.get("APP_ENV") || "localhost";
+    const space = Deno.env.get("DIGITAL_OCEAN_SPACE") || "";
+
+    const spacesEndpoint = new aws.Endpoint(`${region}.digitaloceanspaces.com`); //"nyc3.digitaloceanspaces.com");
+    const s3 = new aws.S3({
+      endpoint: spacesEndpoint,
+      accessKeyId: Deno.env.get("DIGITAL_OCEAN_SPACES_ACCESS_KEY"),
+      secretAccessKey: Deno.env.get("DIGITAL_OCEAN_SPACES_SECRET_KEY"),
     });
 
-    const fleekSdk = new FleekSdk({
-      accessTokenService: patService,
-    });
+    const imageId = ulid();
+    const key = environment === "production"
+      ? `${imageId}_${blob.name}`
+      : `${environment}/${imageId}_${blob.name}`;
 
-    const result = await fleekSdk.storage().uploadFile({
-      file: blob,
-      onUploadProgress(uploadProgress) {
-        console.error("uploadProgress", uploadProgress);
-      },
-    });
+    const buffer = await blob.arrayBuffer();
+    const uint8Array = new Uint8Array(buffer);
 
-    const imageUrl = `https://${result.pin.cid}.ipfs.flk-ipfs.xyz`;
+    const params: aws.S3.Types.PutObjectRequest = {
+      Bucket: space,
+      ACL: "public-read",
+      Key: key,
+      Body: uint8Array,
+    };
+
+    await s3.putObject(params).promise();
+
+    const imageUrl =
+      `https://${space}.${region}.cdn.digitaloceanspaces.com/${key}`;
     const image = {
-      id: ulid(),
-      cid: result.pin.cid,
+      id: imageId,
       type: blob.type,
       name: blob.name,
       url: imageUrl,
