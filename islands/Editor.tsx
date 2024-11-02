@@ -14,6 +14,7 @@ import IconListCheck from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-c
 import IconListNumbers from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-numbers.tsx";
 import IconPencil from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/pencil.tsx";
 import IconEye from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/eye.tsx";
+import IconFileUpload from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/file-upload.tsx";
 import { Tab } from "@headlessui/react";
 import { CSS, render } from "$gfm";
 import { Head } from "$fresh/runtime.ts";
@@ -36,6 +37,7 @@ export function Editor(props: { data?: Note | Post; type: string }) {
   const value = content.value;
   const isEditing = props?.data ? useSignal(true) : useSignal(false);
   const specialType = useSignal("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -161,43 +163,51 @@ export function Editor(props: { data?: Note | Post; type: string }) {
     });
   }
 
+  const doFile = async (file: File) => {
+    if (file.type.indexOf("image") > -1) {
+      const formData = new FormData();
+      formData.append("blob", file);
+      const response = await fetch(`/api/images`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      const dimensions: { width: number; height: number } =
+        await getPhotoDimensions(file);
+
+      const imageTag = `<img alt="${file.name}" width="${
+        dimensions.width / 2
+      }" src="${data.imageUrl}"></img>\n`;
+      setTextAreaHelper(imageTag, imageTag.length);
+    } else {
+      const formData = new FormData();
+      formData.append("blob", file);
+      const response = await fetch(`/api/images`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      const linkTag = `[${file.name}](${data.imageUrl})`;
+      setTextAreaHelper(linkTag, linkTag.length);
+    }
+
+    if (textareaRef.current?.value) {
+      content.value = textareaRef.current?.value;
+    }
+  };
+
   const handleDrop = async (e: DragEvent) => {
     e.preventDefault();
 
     if (e.dataTransfer) {
       const file = e.dataTransfer.files[0];
 
-      if (file.type.indexOf("image") > -1) {
-        const formData = new FormData();
-        formData.append("blob", file);
-        const response = await fetch(`/api/images`, {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-
-        const dimensions: { width: number; height: number } =
-          await getPhotoDimensions(file);
-
-        const imageTag = `<img alt="${file.name}" width="${
-          dimensions.width / 2
-        }" src="${data.imageUrl}"></img>\n`;
-        setTextAreaHelper(imageTag, imageTag.length);
-      } else {
-        const formData = new FormData();
-        formData.append("blob", file);
-        const response = await fetch(`/api/images`, {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-
-        const linkTag = `[${file.name}](${data.imageUrl})`;
-        setTextAreaHelper(linkTag, linkTag.length);
-      }
+      await doFile(file);
+    } else {
+      content.value = (e?.target as HTMLInputElement)?.value;
     }
-
-    content.value = (e?.target as HTMLInputElement)?.value;
   };
 
   const setTextAreaHelper = (newText: string, newCursorPosition: number) => {
@@ -244,6 +254,19 @@ export function Editor(props: { data?: Note | Post; type: string }) {
 
   const addLink = (e: Event) => {
     setTextAreaHelper("[](url)", 1);
+  };
+
+  const handleFileChange = async (event: any) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      await doFile(file);
+
+      // Reset the file input
+      if (inputRef.current?.value) {
+        inputRef.current.value = "";
+      }
+    }
   };
 
   return (
@@ -416,6 +439,26 @@ export function Editor(props: { data?: Note | Post; type: string }) {
                     >
                       <IconListCheck
                         data-tooltip-target="tooltip-list-check"
+                        class="h-5 w-5"
+                      />
+                    </Button>
+                    <input
+                      type="file"
+                      ref={inputRef}
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+                    <Button
+                      onClick={() => inputRef.current?.click()}
+                      type="button"
+                      htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+                      tooltip={true}
+                      tooltipContent="Upload file"
+                      tooltipId="tooltip-upload-file"
+                      ariaLabel="Upload a file"
+                    >
+                      <IconFileUpload
+                        data-tooltip-target="tooltip-upload-file"
                         class="h-5 w-5"
                       />
                     </Button>

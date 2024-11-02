@@ -27,8 +27,8 @@ export const handler: Handlers<undefined, SignedInState> = {
 
     const imageId = ulid();
     const key = environment === "production"
-      ? `${imageId}_${blob.name}`
-      : `${environment}/${imageId}_${blob.name}`;
+      ? `${imageId}`
+      : `${environment}/${imageId}`;
 
     const buffer = await blob.arrayBuffer();
     const uint8Array = new Uint8Array(buffer);
