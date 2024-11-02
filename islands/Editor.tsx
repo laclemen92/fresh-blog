@@ -271,14 +271,15 @@ export function Editor(props: { data?: Note | Post; type: string }) {
 
   const doFileUpload = () => {
     const input = document.createElement("input");
+    input.className = "hidden";
     input.type = "file";
 
     document.body.appendChild(input);
 
-    input.onchange = async function (event) {
+    input.addEventListener("change", async function (event) {
       await handleFileChange(event);
       document.body.removeChild(input);
-    };
+    });
 
     input.click();
   };
