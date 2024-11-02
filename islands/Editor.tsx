@@ -269,6 +269,20 @@ export function Editor(props: { data?: Note | Post; type: string }) {
     }
   };
 
+  const doFileUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+
+    document.body.appendChild(input);
+
+    input.onchange = async function (event) {
+      await handleFileChange(event);
+      document.body.removeChild(input);
+    };
+
+    input.click();
+  };
+
   return (
     <>
       <Head>
@@ -449,7 +463,7 @@ export function Editor(props: { data?: Note | Post; type: string }) {
                       onChange={handleFileChange}
                     />
                     <Button
-                      onClick={() => inputRef.current?.click()}
+                      onClick={() => doFileUpload()}
                       type="button"
                       htmlClass="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
                       tooltip={true}
