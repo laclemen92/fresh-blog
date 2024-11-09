@@ -4,9 +4,8 @@ import { Note } from "@/models/Note.ts";
 export function DeleteNote(props: { note: Note; redirect: string }) {
   return (
     <Button
-      onClick={async (e) => {
-        console.error("hello?");
-        const resp = await fetch(`/api/notes`, {
+      onClick={async (_e: Event) => {
+        await fetch(`/api/notes`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

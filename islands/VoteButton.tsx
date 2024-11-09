@@ -12,8 +12,8 @@ export function VoteButton(
   },
 ) {
   const { didVote, voteCountSignal, postId, disabled } = props;
-  const onClickVote = async (e: Event) => {
-    const resp = await fetch(`/api/votes`, {
+  const onClickVote = async (_e: Event) => {
+    await fetch(`/api/votes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

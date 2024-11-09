@@ -1,7 +1,7 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { NoteService } from "@/services/NoteService.ts";
 import Error404 from "@/routes/_404.tsx";
-import type { SignedInState, State } from "@/plugins/session.ts";
+import type { SignedInState } from "@/plugins/session.ts";
 import type { Note } from "@/models/Note.ts";
 import { Editor } from "@/islands/Editor.tsx";
 
@@ -28,9 +28,7 @@ export const handler: Handlers<Page, SignedInState> = {
   },
 };
 
-export default function EditNotePage({ data, state }: PageProps<Page | null>) {
-  const { sessionUser }: State = state;
-
+export default function EditNotePage({ data }: PageProps<Page | null>) {
   if (!data) {
     return <Error404 />;
   }

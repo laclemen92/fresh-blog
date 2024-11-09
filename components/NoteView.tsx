@@ -35,7 +35,7 @@ export default function NoteView(props: {
             sessionUser?.role === UserRoles.ADMIN
           ? (
             <Button
-              onClick={(e) => {
+              onClick={(_e: Event) => {
                 isEditing.value = !isEditing.value;
               }}
               style="primary"
@@ -79,6 +79,15 @@ export default function NoteView(props: {
                   }],
                 },
               },
+            ).replaceAll(
+              "<a href",
+              `<a target="_blank" href`,
+            ).replaceAll(
+              `<li><input checked disabled type="checkbox"`,
+              `<li style="list-style-type: none;"><input checked disabled type="checkbox"`,
+            ).replaceAll(
+              `<li><input disabled type="checkbox"`,
+              `<li style="list-style-type: none;"><input disabled type="checkbox"`,
             ),
           }}
         />

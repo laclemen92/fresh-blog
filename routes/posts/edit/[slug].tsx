@@ -1,7 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { PostService } from "@/services/PostService.ts";
 import Error404 from "@/routes/_404.tsx";
-import type { State } from "@/plugins/session.ts";
 import type { Post } from "@/models/Post.ts";
 import { Editor } from "@/islands/Editor.tsx";
 
@@ -25,9 +24,7 @@ export const handler: Handlers<Page> = {
   },
 };
 
-export default function EditPostPage({ data, state }: PageProps<Page | null>) {
-  const { sessionUser }: State = state;
-
+export default function EditPostPage({ data }: PageProps<Page | null>) {
   if (!data) {
     return <Error404 />;
   }

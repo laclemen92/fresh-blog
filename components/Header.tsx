@@ -36,7 +36,7 @@ export function Header(props: HeaderProps) {
                   </Button>
                   <div
                     id="header-login-options"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 bg-white border border-gray-300/70 rounded-lg shadow-xl shadow-gray-400/20 w-72"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 border border-gray-300/70 rounded-lg shadow-xl shadow-gray-400/20 w-72"
                   >
                     <ul
                       class="py-2 text-sm text-gray-700 divide-y divide-slate-200"
@@ -82,7 +82,7 @@ export function Header(props: HeaderProps) {
                   </Button>
                   <div
                     id="header-menu-dropdown"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 bg-white border border-gray-300/70 rounded-lg shadow-xl shadow-gray-400/20 w-72"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 border border-gray-300/70 rounded-lg shadow-xl shadow-gray-400/20 w-72"
                   >
                     <ul
                       class="py-2 text-sm text-gray-700 divide-y divide-slate-200"

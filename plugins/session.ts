@@ -47,7 +47,7 @@ async function ensureSignedIn(
   try {
     assertSignedIn(ctx);
     return await ctx.next();
-  } catch (e: any) {
+  } catch (_e: any) {
     return new Response("", {
       status: STATUS_CODE.TemporaryRedirect,
       headers: { Location: "/" },

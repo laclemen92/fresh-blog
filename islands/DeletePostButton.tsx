@@ -5,8 +5,8 @@ export function DeletePostButton(props: { post: Post; userLogin: string }) {
   const { post, userLogin } = props;
   return (
     <Button
-      onClick={async (e) => {
-        const resp = await fetch(`/api/posts`, {
+      onClick={async (_e: Event) => {
+        await fetch(`/api/posts`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

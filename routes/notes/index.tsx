@@ -13,7 +13,6 @@ interface Props {
 export const handler: Handlers<Props, SignedInState> = {
   async GET(_req, ctx) {
     const noteService = new NoteService();
-    // ctx.state.sessionUser.login;
     if (!ctx.state?.sessionUser?.login) {
       return ctx.render(undefined);
     }

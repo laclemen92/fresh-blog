@@ -1,9 +1,8 @@
 import { useSignal } from "@preact/signals";
 import { Dialog } from "@headlessui/react";
-import { getSecretKey, setSecretKey } from "@/stores/secretKeyStore.ts";
-import { PageProps } from "$fresh/server.ts";
+import { setSecretKey } from "@/stores/secretKeyStore.ts";
 
-export function EncryptionSecretPrompt(props: any) {
+export function EncryptionSecretPrompt(props: { loggedIn: boolean }) {
   const currentKey = true; // getSecretKey();
 
   if (!props.loggedIn) return null;
