@@ -164,7 +164,11 @@ export function Editor(props: { data?: Note | Post; type: string }) {
   }
 
   const doFile = async (file: File) => {
-    if (file.type.indexOf("image") > -1) {
+    if (
+      file.type.indexOf("image") > -1 &&
+      !file.name.toLowerCase().endsWith("heic") &&
+      !file.name.toLowerCase().endsWith("heif")
+    ) {
       const formData = new FormData();
       formData.append("blob", file);
       const response = await fetch(`/api/images`, {
