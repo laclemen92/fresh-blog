@@ -11,7 +11,6 @@ import IconCode from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/code.tsx";
 import IconLink from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/link.tsx";
 import IconList from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list.tsx";
 import IconListCheck from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-check.tsx";
-import IconListNumbers from "https://deno.land/x/tabler_icons_tsx@0.0.5/tsx/list-numbers.tsx";
 import IconPencil from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/pencil.tsx";
 import IconEye from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/eye.tsx";
 import IconFileUpload from "https://deno.land/x/tabler_icons_tsx@0.0.7/tsx/file-upload.tsx";
@@ -33,13 +32,12 @@ export function Editor(props: { data?: Note | Post; type: string }) {
   const title = props?.data?.title
     ? useSignal(props.data.title)
     : useSignal("");
-  // const titleValue = title.value;
   const value = content.value;
   const isEditing = props?.data ? useSignal(true) : useSignal(false);
   const specialType = useSignal("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: Event) => {
     e.preventDefault();
     const title = titleRef.current?.value || "";
     const toPost: Partial<Post> & Partial<Note> = {
@@ -105,6 +103,26 @@ export function Editor(props: { data?: Note | Post; type: string }) {
     content.value = (e?.target as HTMLInputElement)?.value;
   };
 
+  const saveFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append("blob", file);
+    const response = await fetch(`/api/images`, {
+      method: "POST",
+      body: formData,
+    });
+    return await response.json();
+  };
+
+  const addImageTagForUpload = async (file: File, url: string) => {
+    const dimensions: { width: number; height: number } =
+      await getPhotoDimensions(file);
+
+    const imageTag = `<img alt="${file.name}" width="${
+      dimensions.width / 2
+    }" src="${url}"></img>\n`;
+    setTextAreaHelper(imageTag, imageTag.length);
+  };
+
   const handleContentPaste = async (e: ClipboardEvent) => {
     if (e?.clipboardData?.items) {
       const items = e.clipboardData.items;
@@ -113,21 +131,8 @@ export function Editor(props: { data?: Note | Post; type: string }) {
           const file = item.getAsFile();
 
           if (file) {
-            const formData = new FormData();
-            formData.append("blob", file);
-            const response = await fetch(`/api/images`, {
-              method: "POST",
-              body: formData,
-            });
-            const data = await response.json();
-
-            const dimensions: { width: number; height: number } =
-              await getPhotoDimensions(file);
-
-            const imageTag = `<img alt="${file.name}" width="${
-              dimensions.width / 2
-            }" src="${data.imageUrl}"></img>\n`;
-            setTextAreaHelper(imageTag, imageTag.length);
+            const data = await saveFile(file);
+            await addImageTagForUpload(file, data.imageUrl);
           }
         }
       }
@@ -169,29 +174,10 @@ export function Editor(props: { data?: Note | Post; type: string }) {
       !file.name.toLowerCase().endsWith("heic") &&
       !file.name.toLowerCase().endsWith("heif")
     ) {
-      const formData = new FormData();
-      formData.append("blob", file);
-      const response = await fetch(`/api/images`, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-
-      const dimensions: { width: number; height: number } =
-        await getPhotoDimensions(file);
-
-      const imageTag = `<img alt="${file.name}" width="${
-        dimensions.width / 2
-      }" src="${data.imageUrl}"></img>\n`;
-      setTextAreaHelper(imageTag, imageTag.length);
+      const data = await saveFile(file);
+      await addImageTagForUpload(file, data.imageUrl);
     } else {
-      const formData = new FormData();
-      formData.append("blob", file);
-      const response = await fetch(`/api/images`, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
+      const data = await saveFile(file);
 
       const linkTag = `[${file.name}](${data.imageUrl})`;
       setTextAreaHelper(linkTag, linkTag.length);
@@ -226,42 +212,48 @@ export function Editor(props: { data?: Note | Post; type: string }) {
     );
   };
 
-  const addNewHeading = (e: Event) => {
+  const addNewHeading = (_e: Event) => {
     setTextAreaHelper(`### `, 4);
   };
 
-  const addBulletPoint = (e: Event) => {
+  const addBulletPoint = (_e: Event) => {
     setTextAreaHelper(`* `, 2);
     specialType.value = "bullet";
   };
 
-  const addCheckbox = (e: Event) => {
+  const addCheckbox = (_e: Event) => {
     setTextAreaHelper(`- [ ] `, 4);
     specialType.value = "checkbox";
   };
 
-  const addBold = (e: Event) => {
+  const addBold = (_e: Event) => {
     setTextAreaHelper(`****`, 2);
   };
 
-  const addItalics = (e: Event) => {
+  const addItalics = (_e: Event) => {
     setTextAreaHelper(`__`, 1);
   };
 
-  const addQuote = (e: Event) => {
+  const addQuote = (_e: Event) => {
     setTextAreaHelper(`\n> \n`, 3);
   };
 
-  const addCode = (e: Event) => {
+  const addCode = (_e: Event) => {
     setTextAreaHelper("``", 1);
   };
 
-  const addLink = (e: Event) => {
+  const addLink = (_e: Event) => {
     setTextAreaHelper("[](url)", 1);
   };
 
-  const handleFileChange = async (event: any) => {
-    const file = event.target.files[0];
+  const handleFileChange = async (event: Event) => {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files?.length) {
+      return;
+    }
+
+    const file = input.files[0];
 
     if (file) {
       await doFile(file);
@@ -295,7 +287,7 @@ export function Editor(props: { data?: Note | Post; type: string }) {
       </Head>
       {/* <form class="flex flex-col flex-1 gap-3 grow" onSubmit={handleSubmit}> */}
       <Tab.Group defaultIndex={0}>
-        {({ selectedIndex }) => (
+        {({ selectedIndex }: { selectedIndex: number }) => (
           <>
             <label htmlFor="title" className="sr-only">
               Email
@@ -544,8 +536,6 @@ export function Editor(props: { data?: Note | Post; type: string }) {
           {isEditing ? "Save" : "Create"}
         </Button>
         <Button
-          onClick={(e) => {
-          }}
           style="secondary"
           type="anchor"
           htmlClass="rounded-lg px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset"
