@@ -18,7 +18,7 @@ export const handler: Handlers<Props, SignedInState> = {
     }
     const notes = await noteService.listNotesForUser(
       ctx.state.sessionUser.login,
-      { reverse: true },
+      { reverse: true, limit: 1000 },
     );
 
     if (notes) {
