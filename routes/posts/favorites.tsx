@@ -17,6 +17,7 @@ export const handler: Handlers<Props, SignedInState> = {
       ctx.state.sessionUser.login,
       {
         reverse: true,
+        limit: 1000,
       },
     );
     const posts = [];

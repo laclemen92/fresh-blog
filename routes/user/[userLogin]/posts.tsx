@@ -12,7 +12,10 @@ export const handler: Handlers<Props> = {
   async GET(_req, ctx) {
     const login = ctx.params.userLogin;
     const postService = new PostService();
-    const posts = await postService.listPostsByUser(login, { reverse: true });
+    const posts = await postService.listPostsByUser(login, {
+      reverse: true,
+      limit: 1000,
+    });
 
     if (posts) {
       return ctx.render({ posts });
